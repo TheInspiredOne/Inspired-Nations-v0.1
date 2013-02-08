@@ -24,6 +24,7 @@ public class House {
 	private Vector<String> builders = new Vector<String>();
 	private int protectionLevel = 1;
 	private int futureprotectionlevel = 1;
+	private Vector<String> coownerrequest = new Vector<String>();
 	
 	public House(InspiredNations instance, Cuboid space, Player owner, String countrytemp, int towntemp, String nametemp) {
 		plugin = instance;
