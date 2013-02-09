@@ -25,6 +25,7 @@ public class House {
 	private int protectionLevel = 1;
 	private int futureprotectionlevel = 1;
 	private Vector<String> coownerrequest = new Vector<String>();
+	private Vector<String> coowneroffer = new Vector<String>();
 	
 	public House(InspiredNations instance, Cuboid space, Player owner, String countrytemp, int towntemp, String nametemp) {
 		plugin = instance;
@@ -91,6 +92,38 @@ public class House {
 	
 	public void removeOwner(Player owner) {
 		owners.remove(owner.getName());
+	}
+	
+	public void setOwnerOffer(Player owner) {
+		coowneroffer.add(owner.getName());
+	}
+	
+	public void setOwnerOffers(Vector<String> owner) {
+		coowneroffer = owner;
+	}
+	
+	public void addOwnerOffer(Player owner) {
+		coowneroffer.add(owner.getName());
+	}
+	
+	public void removeOwnerOffer(Player owner) {
+		coowneroffer.remove(owner.getName());
+	}
+	
+	public void setOwneRequest(Player owner) {
+		coownerrequest.add(owner.getName());
+	}
+	
+	public void setOwnerRequests(Vector<String> owner) {
+		coownerrequest = owner;
+	}
+	
+	public void addOwnerRequest(Player owner) {
+		coownerrequest.add(owner.getName());
+	}
+	
+	public void removeOwnerRequest(Player owner) {
+		coownerrequest.remove(owner.getName());
 	}
 	
 	public void setName(String nametemp) {
@@ -258,5 +291,11 @@ public class House {
 	
 	public Vector<String> getOwners() {
 		return owners;
+	}
+	public Vector<String> getOwnerOffers() {
+		return coowneroffer;
+	}
+	public Vector<String> getOwnerRequest() {
+		return coownerrequest;
 	}
 }

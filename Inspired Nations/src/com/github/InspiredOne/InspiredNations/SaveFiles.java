@@ -1394,40 +1394,43 @@ public class SaveFiles {
 		return hospital;
 	}
 
-	public void serializeHouse(House prison, String key) {
+	public void serializeHouse(House house, String key) {
 		// Setting new values
-		dataFileConfig.addDefault(key + ".country", prison.getCountry());
-		dataFileConfig.addDefault(key + ".town", prison.getTown());
-		dataFileConfig.addDefault(key + ".isCubeSpace", prison.isCubeSpace());
-		dataFileConfig.addDefault(key + ".isPolySpace", prison.isPolySpace());
-		dataFileConfig.addDefault(key + ".owners.size", prison.getOwners().size());
-		dataFileConfig.addDefault(key + ".name", prison.getName());
-		dataFileConfig.addDefault(key + ".protectionlevel", prison.getProtectionLevel());
-		dataFileConfig.addDefault(key + ".futureprotectionlevel", prison.getFutureProtectionLevel());
-		for (int i = 0; i < prison.getOwners().size(); i++) {
-			dataFileConfig.addDefault(key + ".owners." + i, prison.getOwners().get(i));
+		dataFileConfig.addDefault(key + ".country", house.getCountry());
+		dataFileConfig.addDefault(key + ".town", house.getTown());
+		dataFileConfig.addDefault(key + ".isCubeSpace", house.isCubeSpace());
+		dataFileConfig.addDefault(key + ".isPolySpace", house.isPolySpace());
+		dataFileConfig.addDefault(key + ".owners.size", house.getOwners().size());
+		dataFileConfig.addDefault(key + ".name", house.getName());
+		dataFileConfig.addDefault(key + ".protectionlevel", house.getProtectionLevel());
+		dataFileConfig.addDefault(key + ".futureprotectionlevel", house.getFutureProtectionLevel());
+		for (int i = 0; i < house.getOwners().size(); i++) {
+			dataFileConfig.addDefault(key + ".owners." + i, house.getOwners().get(i));
 		}
+		
+		serializeVector(house.getOwnerOffers(), key + ".owneroffers");
+		serializeVector(house.getOwnerRequest(), key + ".ownerrequests");
 		
 		// builders
 		int n = 0;
-		for (String i:prison.getBuilders()) {
+		for (String i:house.getBuilders()) {
 			dataFileConfig.addDefault(key + ".builders." + n, i);
 			n++;
 		}
 		dataFileConfig.addDefault(key + ".builders.size", n);
 		n=0;
 		
-		if (prison.isCubeSpace()) {
-			dataFileConfig.addDefault(key + ".cube.1.xmin", prison.getCubeSpace().getXmin());
-			dataFileConfig.addDefault(key + ".cube.1.ymin", prison.getCubeSpace().getYmin());
-			dataFileConfig.addDefault(key + ".cube.1.zmin", prison.getCubeSpace().getZmin());
-			dataFileConfig.addDefault(key + ".cube.2.xmax", prison.getCubeSpace().getXmax());
-			dataFileConfig.addDefault(key + ".cube.2.ymax", prison.getCubeSpace().getYmax());
-			dataFileConfig.addDefault(key + ".cube.2.zmax", prison.getCubeSpace().getZmax());
-			dataFileConfig.addDefault(key + ".cube.3.world", prison.getCubeSpace().getWorld());
+		if (house.isCubeSpace()) {
+			dataFileConfig.addDefault(key + ".cube.1.xmin", house.getCubeSpace().getXmin());
+			dataFileConfig.addDefault(key + ".cube.1.ymin", house.getCubeSpace().getYmin());
+			dataFileConfig.addDefault(key + ".cube.1.zmin", house.getCubeSpace().getZmin());
+			dataFileConfig.addDefault(key + ".cube.2.xmax", house.getCubeSpace().getXmax());
+			dataFileConfig.addDefault(key + ".cube.2.ymax", house.getCubeSpace().getYmax());
+			dataFileConfig.addDefault(key + ".cube.2.zmax", house.getCubeSpace().getZmax());
+			dataFileConfig.addDefault(key + ".cube.3.world", house.getCubeSpace().getWorld());
 		}
-		if (prison.isPolySpace()) {
-			Polygon poly = prison.getPolySpace().getPolygon();
+		if (house.isPolySpace()) {
+			Polygon poly = house.getPolySpace().getPolygon();
 			int[] x = poly.xpoints;
 			int[] y = poly.ypoints;
 			
@@ -1436,42 +1439,42 @@ public class SaveFiles {
 				dataFileConfig.addDefault(key + ".poly." + i + ".x", x[i]);
 				dataFileConfig.addDefault(key + ".poly." + i + ".y", y[i]);
 			}
-			dataFileConfig.addDefault(key + ".poly.world", prison.getPolySpace().getWorld());
-			dataFileConfig.addDefault(key + ".poly.ymax", prison.getPolySpace().getYMax());
-			dataFileConfig.addDefault(key + ".poly.ymin", prison.getPolySpace().getYMin());
+			dataFileConfig.addDefault(key + ".poly.world", house.getPolySpace().getWorld());
+			dataFileConfig.addDefault(key + ".poly.ymax", house.getPolySpace().getYMax());
+			dataFileConfig.addDefault(key + ".poly.ymin", house.getPolySpace().getYMin());
 		}
 		
 		// Updating values
-		dataFileConfig.set(key + ".country", prison.getCountry());
-		dataFileConfig.set(key + ".town", prison.getTown());
-		dataFileConfig.set(key + ".isCubeSpace", prison.isCubeSpace());
-		dataFileConfig.set(key + ".isPolySpace", prison.isPolySpace());
-		dataFileConfig.set(key + ".owners.size", prison.getOwners().size());
-		dataFileConfig.set(key + ".name", prison.getName());
-		dataFileConfig.set(key + ".protectionlevel", prison.getProtectionLevel());
-		dataFileConfig.set(key + ".futureprotectionlevel", prison.getFutureProtectionLevel());
-		for (int i = 0; i < prison.getOwners().size(); i++) {
-			dataFileConfig.set(key + ".owners." + i, prison.getOwners().get(i));
+		dataFileConfig.set(key + ".country", house.getCountry());
+		dataFileConfig.set(key + ".town", house.getTown());
+		dataFileConfig.set(key + ".isCubeSpace", house.isCubeSpace());
+		dataFileConfig.set(key + ".isPolySpace", house.isPolySpace());
+		dataFileConfig.set(key + ".owners.size", house.getOwners().size());
+		dataFileConfig.set(key + ".name", house.getName());
+		dataFileConfig.set(key + ".protectionlevel", house.getProtectionLevel());
+		dataFileConfig.set(key + ".futureprotectionlevel", house.getFutureProtectionLevel());
+		for (int i = 0; i < house.getOwners().size(); i++) {
+			dataFileConfig.set(key + ".owners." + i, house.getOwners().get(i));
 		}
 		// builders
 
-		for (String i:prison.getBuilders()) {
+		for (String i:house.getBuilders()) {
 			dataFileConfig.set(key + ".builders." + n, i);
 			n++;
 		}
 		dataFileConfig.set(key + ".builders.size", n);
 		n=0;
-		if (prison.isCubeSpace()) {
-			dataFileConfig.set(key + ".cube.1.xmin", prison.getCubeSpace().getXmin());
-			dataFileConfig.set(key + ".cube.1.ymin", prison.getCubeSpace().getYmin());
-			dataFileConfig.set(key + ".cube.1.zmin", prison.getCubeSpace().getZmin());
-			dataFileConfig.set(key + ".cube.2.xmax", prison.getCubeSpace().getXmax());
-			dataFileConfig.set(key + ".cube.2.ymax", prison.getCubeSpace().getYmax());
-			dataFileConfig.set(key + ".cube.2.zmax", prison.getCubeSpace().getZmax());
-			dataFileConfig.set(key + ".cube.3.world", prison.getCubeSpace().getWorld());
+		if (house.isCubeSpace()) {
+			dataFileConfig.set(key + ".cube.1.xmin", house.getCubeSpace().getXmin());
+			dataFileConfig.set(key + ".cube.1.ymin", house.getCubeSpace().getYmin());
+			dataFileConfig.set(key + ".cube.1.zmin", house.getCubeSpace().getZmin());
+			dataFileConfig.set(key + ".cube.2.xmax", house.getCubeSpace().getXmax());
+			dataFileConfig.set(key + ".cube.2.ymax", house.getCubeSpace().getYmax());
+			dataFileConfig.set(key + ".cube.2.zmax", house.getCubeSpace().getZmax());
+			dataFileConfig.set(key + ".cube.3.world", house.getCubeSpace().getWorld());
 		}
-		if (prison.isPolySpace()) {
-			Polygon poly = prison.getPolySpace().getPolygon();
+		if (house.isPolySpace()) {
+			Polygon poly = house.getPolySpace().getPolygon();
 			int[] x = poly.xpoints;
 			int[] y = poly.ypoints;
 			
@@ -1480,9 +1483,9 @@ public class SaveFiles {
 				dataFileConfig.set(key + ".poly." + i + ".x", x[i]);
 				dataFileConfig.set(key + ".poly." + i + ".y", y[i]);
 			}
-			dataFileConfig.set(key + ".poly.world", prison.getPolySpace().getWorld());
-			dataFileConfig.set(key + ".poly.ymax", prison.getPolySpace().getYMax());
-			dataFileConfig.set(key + ".poly.ymin", prison.getPolySpace().getYMin());
+			dataFileConfig.set(key + ".poly.world", house.getPolySpace().getWorld());
+			dataFileConfig.set(key + ".poly.ymax", house.getPolySpace().getYMax());
+			dataFileConfig.set(key + ".poly.ymin", house.getPolySpace().getYMin());
 		}
 	}
 
@@ -1496,6 +1499,9 @@ public class SaveFiles {
 		for (int n = 0; n < dataFileConfig.getInt(key + ".builders.size"); n++) {
 			builders.add(dataFileConfig.getString(key + ".builders." + n));
 		}
+		Vector<String> ownerOffers = deserializeVector(key + ".owneroffers");
+		Vector<String> ownerRequests = deserializeVector(key + ".ownerrequests");
+		
 		if (dataFileConfig.getBoolean(key + ".isCubeSpace")) {
 			Cuboid cube = new Cuboid(dataFileConfig.getString(key + ".cube.3.world"));
 			cube.setXmin(dataFileConfig.getInt(key + ".cube.1.xmin"));
@@ -1524,6 +1530,8 @@ public class SaveFiles {
 		housetemp.setProtectionLevel(dataFileConfig.getInt(key + ".protectionlevel"));
 		housetemp.setFutureProtectionLevel(dataFileConfig.getInt(key + ".futureprotectionlevel"));
 		housetemp.setBuilders(builders);
+		housetemp.setOwnerOffers(ownerOffers);
+		housetemp.setOwnerRequests(ownerRequests);
 		return housetemp;
 	}
 	public void serializeGoodBusiness(GoodBusiness business, String key) {
@@ -2106,6 +2114,30 @@ public class SaveFiles {
 		}
 		
 		return new ChestShop(inventory, item, price, quantity, chests, doubleChest);
+	}
+	
+	public void serializeVector(Vector<String> object, String key) {
+		int n = 0;
+		dataFileConfig.addDefault(key + ".size", object.size());
+		for(String i : object) {
+			dataFileConfig.addDefault(key + "." + n, i);
+			n +=1;
+		}
+		n = 0;
+		dataFileConfig.set(key + ".size", object.size());
+		for(String i : object) {
+			dataFileConfig.set(key + "." + n, i);
+			n +=1;
+		}
+	}
+	
+	public Vector<String> deserializeVector(String key) {
+		Vector<String> value = new Vector<String>();
+
+		for(int i = 0; i<dataFileConfig.getInt(key + ".size"); i+=1) {
+			value.add(dataFileConfig.getString(key + "." + i));
+		}
+		return value;
 	}
 	
     public static String InventoryToString (Inventory invInventory)
