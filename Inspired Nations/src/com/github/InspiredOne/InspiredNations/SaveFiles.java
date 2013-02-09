@@ -2139,7 +2139,6 @@ public class SaveFiles {
 		}
 		return value;
 	}
-	
     public static String InventoryToString (Inventory invInventory)
     {
         String serialization = invInventory.getSize() + ";";

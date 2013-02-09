@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.Vector;
 
-
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.conversations.ConversationContext;
@@ -16,14 +15,10 @@ import org.bukkit.entity.Player;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.PlayerModes;
-import com.github.InspiredOne.InspiredNations.Business.Good.GoodBusiness;
-import com.github.InspiredOne.InspiredNations.Business.Service.ServiceBusiness;
 import com.github.InspiredOne.InspiredNations.House.House;
-import com.github.InspiredOne.InspiredNations.Regions.Cuboid;
-import com.github.InspiredOne.InspiredNations.Regions.polygonPrism;
 import com.github.InspiredOne.InspiredNations.Town.Town;
 
-public class ManageHouse2 extends StringPrompt {
+public class ManageHouseOwners extends StringPrompt {
 
 	InspiredNations plugin;
 	Player player;
@@ -37,7 +32,7 @@ public class ManageHouse2 extends StringPrompt {
 	Vector<String> buildernames = new Vector<String>();
 	
 	// Constructor
-	public ManageHouse2(InspiredNations instance, Player playertemp, int errortemp, String housename) {
+	public ManageHouseOwners(InspiredNations instance, Player playertemp, int errortemp, String housename) {
 		plugin = instance;
 		player = playertemp;
 		PDI = plugin.playerdata.get(player.getName().toLowerCase());
@@ -52,7 +47,7 @@ public class ManageHouse2 extends StringPrompt {
 			}
 		}
 	}
-	public ManageHouse2(InspiredNations instance, Player playertemp, int errortemp, String housename, Vector<String> buildertemp) {
+	public ManageHouseOwners(InspiredNations instance, Player playertemp, int errortemp, String housename, Vector<String> buildertemp) {
 		plugin = instance;
 		player = playertemp;
 		PDI = plugin.playerdata.get(player.getName().toLowerCase());
@@ -167,96 +162,41 @@ public class ManageHouse2 extends StringPrompt {
 		if (error == 9) {
 			errormsg = errormsg.concat(ChatColor.RED + "Add more letters. It could be: " + format(buildernames) + ". ");
 		}
+		
 		options = options.concat(ChatColor.YELLOW + " " + ChatColor.BOLD + house.getName() + ChatColor.RESET + repeat(" ", 70 - (int)(house.getName().length()*1.4)) + ChatColor.GREEN);
 		options = options.concat(ChatColor.DARK_AQUA + repeat("-", 53) + ChatColor.GREEN);
-		options = options.concat(ChatColor.YELLOW + "Builders: " + ChatColor.GOLD + format(house.getBuilders()) + " " + ChatColor.GREEN);
+		options = options.concat(ChatColor.YELLOW + "Owners: " + ChatColor.GOLD + format(house.getOwners()) + " " + ChatColor.GREEN);
+		options = options.concat(ChatColor.DARK_AQUA + repeat("-", 53) + ChatColor.GREEN);
+		options = options.concat(ChatColor.YELLOW + "Owner Offers: " + ChatColor.GOLD + format(house.getOwnerOffers()) + " " + ChatColor.GREEN);
+		options = options.concat(ChatColor.DARK_AQUA + repeat("-", 53) + ChatColor.GREEN);
+		options = options.concat(ChatColor.YELLOW + "Owner Requests: " + ChatColor.GOLD + format(house.getOwnerRequest()) + " " + ChatColor.GREEN);
 		options = options.concat(ChatColor.DARK_AQUA + repeat("-", 53) + ChatColor.GREEN);
 		
-		options = options.concat("Rename <name>" + repeat(" ",60));
-		options = options.concat("Manage Owners" + repeat(" ", 50));
-		options = options.concat("Add Builder <player>" + repeat(" ", 50));
-		if (house.getBuilders().size() > 0) {
-			options = options.concat("Remove Builder <player>" + repeat( " ", 50));
-			input.add("remove");
-		}
-		options = options.concat("Reclaim Land" + repeat(" ", 60));
-		options = options.concat("Protection Level" + repeat(" ", 55));
-		options = options.concat("");
-		input.add("rename");
-		input.add("reclaim land");
-		input.add("builder");
-		input.add("manage");
+		options = options.concat(ChatColor.GREEN + "Accept Request <player>" + repeat(" ", 45));
+		options = options.concat("Offer <player" + repeat(" ", 50));
+		options = options.concat("Remove Owner <player>" + repeat(" ", 45));
+		input.add("accept");
+		input.add("offer");
 		input.add("remove");
-		input.add("protection");
-		
 		
 		return space + main+options + end + errormsg;
 	}
+	
 	@Override
 	public Prompt acceptInput(ConversationContext arg0, String arg) {
 		if (arg.startsWith("/")) {
 			arg = arg.substring(1);
 		}
-		String tempname = "";
-		String[] args = arg.split(" ");
-		if (args.length < 2 && !arg.equalsIgnoreCase("back")) return new ManageHouse2(plugin, player, 1, name);
-		if (!(input.contains(arg.toLowerCase()) || input.contains(args[0].toLowerCase()) || input.contains(args[1].toLowerCase()))) return new ManageHouse2(plugin, player, 1, name);
 		// Back
 		if (arg.equalsIgnoreCase("back")) {
-			if (PDI.getHouseOwned().size() == 1) {
-				return new HudConversationMain(plugin, player, 0);
-			}
-			else return new ManageHouse1(plugin, player, 0);
-		}
-		// Reclaim
-		if (arg.equalsIgnoreCase("reclaim land")) {
-			PM.reSelectHouse = true;
-			PM.setPolygon(new polygonPrism(player.getWorld().getName()));
-			PM.setCuboid(new Cuboid(player.getWorld().getName()));
-			PM.house(true);
-			return new ReclaimHouse1(plugin, player, 0, house);
-		}
-		// Rename
-		if (args[0].equalsIgnoreCase("rename")) {
-			for(int i = 0; i < args.length - 1; i++) {
-				tempname = tempname.concat(args[i+1] + " ");
-			}
-			tempname = tempname.substring(0, tempname.length()-1);
-			for (House housetest: town.getHouses()) {
-				if (housetest.getName().equalsIgnoreCase(tempname) && !housetest.equals(house)) {
-					return new ManageHouse2(plugin, player, 2, name);
-				}
-			}
-			house.setName(tempname);
-			return new ManageHouse2(plugin, player, 0, tempname);
-		}
-		// Add Builder
-		if (args[0].equalsIgnoreCase("add") && args[1].equalsIgnoreCase("builder")) {
-			if (find(args[2]).size() == 1) args[2] = find(args[2]).get(0);
-			else if (find(args[2]).size() == 0) return new ManageHouse2(plugin, player, 6, name);
-			else return new ManageHouse2(plugin, player, 9, name, find(args[2]));
-			
-			house.addBuilder(args[2]);
-			return new ManageHouse2(plugin, player, 0, name);
-		}
-		// Protection Level
-		if (args[0].equalsIgnoreCase("protection")) {
-			return new GeneralProtectionLevel(plugin, player, 0, "house", house);
-		}
-		// Remove Builder
-		if (args[0].equalsIgnoreCase("remove") && args[1].equalsIgnoreCase("builder")) {
-			if (find(args[2], house.getBuilders()).size() == 1) args[2] = find(args[2], house.getBuilders()).get(0);
-			else if (find(args[2], house.getBuilders()).size()== 0) return new ManageHouse2(plugin, player, 3, name);
-			else return new ManageHouse2(plugin, player, 9, name, find(args[2], house.getBuilders()));
-			
-			house.removeBuilder(args[2]);
 			return new ManageHouse2(plugin, player, 0, name);
 		}
 		
-		// Manage Owners
-		if (args[0].equalsIgnoreCase("manage") && args[1].equalsIgnoreCase("owners")) {
-			return new ManageHouseOwners(plugin, player, 0, name);
-		}
-		return new ManageHouse2(plugin, player, 1, name);
+		// 
+		return new ManageHouseOwners(plugin, player, 1, name);
 	}
+
+
+
+
 }
