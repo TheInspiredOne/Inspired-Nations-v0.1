@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.PlayerMethods;
 import com.github.InspiredOne.InspiredNations.PlayerModes;
 import com.github.InspiredOne.InspiredNations.Prison.Local.LocalPrison;
 import com.github.InspiredOne.InspiredNations.Town.Town;
@@ -179,6 +180,8 @@ public class ManageLocalPrison extends StringPrompt {
 			options = options.concat("Remove Builder <player>" + repeat( " ", 50));
 			input.add("remove");
 		}
+		options = options.concat("Unclaim" + repeat(" ", 55));
+		input.add("unclaim");
 		
 		return space + main + options + end + errormsg;
 	}
@@ -225,6 +228,24 @@ public class ManageLocalPrison extends StringPrompt {
 		// Remove Cell
 		if (arg.equalsIgnoreCase("delete cell")) {
 			return new RemoveCell(plugin, player, 0);
+		}
+		
+		// Remove Prison
+		if (arg.equalsIgnoreCase("unclaim")) {
+			town.setPrison(null);
+			for(String name: town.getCoMayors()) {
+				if(plugin.getServer().getPlayerExact(name).isConversing() && !name.equalsIgnoreCase(player.getName())) {
+					plugin.playerdata.get(name).getConversation().abandon();
+				}
+			}
+			if (plugin.getServer().getPlayerExact(town.getMayor()).isConversing() && !town.getMayor().equalsIgnoreCase(player.getName())) {
+				plugin.playerdata.get(town.getMayor()).getConversation().abandon();
+			}
+			for(Player playertarget:plugin.getServer().getOnlinePlayers()) {
+				PlayerMethods PM = new PlayerMethods(plugin, playertarget);
+				PM.resetLocationBooleans();
+			}
+			return new TownGovernmentRegions(plugin, player, 0);
 		}
 		
 		return new ManageLocalPrison(plugin, player, 0);

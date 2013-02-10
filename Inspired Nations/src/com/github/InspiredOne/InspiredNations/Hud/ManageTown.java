@@ -133,6 +133,9 @@ public class ManageTown extends StringPrompt{
 		if (error == 6) {
 			errormsg = errormsg.concat(ChatColor.RED + "That player is the mayor of this town.");
 		}
+		if (error == 7) {
+			errormsg = errormsg.concat(ChatColor.RED+ "That town name is already taken.");
+		}
 		
 		options = options.concat(ChatColor.BOLD + town.getName() + ChatColor.RESET + repeat(" ", 80 - townLength) + ChatColor.RESET + ChatColor.YELLOW);
 		if (town.getResidents().size() == 1) popPlural = " Person";
@@ -150,8 +153,10 @@ public class ManageTown extends StringPrompt{
 			options = options.concat("Add CoMayor <player>" + repeat(" ", 50));
 			options = options.concat("Manage Finances" + repeat(" ", 60));
 			options = options.concat("Transfer Leadership" + repeat(" ", 53));
+			options = options.concat("Rename <name>" + repeat(" ", 61));
 			options = options.concat("Protection Level" + repeat(" ", 58));
 			input.add("add");
+			input.add("rename");
 			input.add("manage");
 			input.add("transfer");
 			input.add("protection");
@@ -173,6 +178,7 @@ public class ManageTown extends StringPrompt{
 			}
 			options = options.concat("Manage Finances" + repeat(" ", 60));
 			options = options.concat("Transfer LeaderShip" + repeat(" ", 53));
+			options = options.concat("Rename <name>" + repeat( " ", 61));
 			options = options.concat("Protection Level" + repeat(" ", 58));
 			if (town.getArea() != 0) {
 				options = options.concat("Unclaim Land" + repeat(" ", 60));
@@ -181,6 +187,7 @@ public class ManageTown extends StringPrompt{
 				input.add("unclaim");
 			}
 			input.add("add");
+			input.add("rename");
 			input.add("manage");
 			input.add("transfer");
 			input.add("protection");
@@ -232,6 +239,22 @@ public class ManageTown extends StringPrompt{
 			PM.preTown(true);
 			PM.setPolygon(new polygonPrism(player.getWorld().getName()));
 			return new ClaimTownLand(plugin, player, 0);
+		}
+		
+		// Rename
+		if (args[0].equalsIgnoreCase("rename")) {
+			String tempname = "";
+			for(int i = 0; i < args.length - 1; i++) {
+				tempname = tempname.concat(args[i+1] + " ");
+			}
+			tempname = tempname.substring(0, tempname.length()-1);
+			for(Town townname:PDI.getCountryResides().getTowns()) {
+				if(townname.getName().equalsIgnoreCase(tempname)) {
+					return new ManageTown(plugin, player, 7);
+				}
+			}
+			town.setName(tempname);
+			return new ManageTown(plugin, player, 0);
 		}
 		
 		// Unclaim Land

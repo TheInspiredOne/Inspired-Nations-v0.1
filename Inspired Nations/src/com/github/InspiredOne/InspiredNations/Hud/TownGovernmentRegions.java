@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.PlayerMethods;
 import com.github.InspiredOne.InspiredNations.PlayerModes;
 import com.github.InspiredOne.InspiredNations.Park.Park;
 import com.github.InspiredOne.InspiredNations.Regions.Cuboid;
@@ -78,9 +79,7 @@ public class TownGovernmentRegions extends StringPrompt {
 		
 		else {
 			options = options.concat(ChatColor.GREEN + "Manage Town Hall" + repeat(" ", 55));
-			options = options.concat(ChatColor.GREEN + "Remove Town Hall" + repeat(" ", 55));
 			options = options.concat("Reclaim Town Hall" + ChatColor.GRAY + " Allows people to join your town." + ChatColor.GREEN + repeat(" ", 13));
-			input.add("remove town hall");
 			input.add("reclaim town hall");
 			input.add("manage town hall");
 		}
@@ -92,9 +91,7 @@ public class TownGovernmentRegions extends StringPrompt {
 		
 		else {
 			options = options.concat("Manage Bank" + repeat(" ", 65));
-			options = options.concat("Remove Bank" + repeat(" ", 65));
 			options = options.concat("Reclaim Bank"  + ChatColor.GRAY + " Allows people to save and borrow money." + ChatColor.GREEN + repeat(" ", 12));
-			input.add("remove bank");
 			input.add("reclaim bank");
 			input.add("manage bank");
 		}
@@ -106,10 +103,8 @@ public class TownGovernmentRegions extends StringPrompt {
 		
 		else {
 			options = options.concat("Manage Hospital" + repeat(" ", 55));
-			options = options.concat("Remove Hospital" + repeat(" ", 55));
 			options = options.concat("Reclaim Hospital" + ChatColor.GRAY + " Allows people to safely heal." + ChatColor.GREEN + repeat(" ", 21));
 			input.add("reclaim hospital");
-			input.add("remove hospital");
 			input.add("manage hospital");
 		}
 		
@@ -120,9 +115,8 @@ public class TownGovernmentRegions extends StringPrompt {
 		
 		else {
 			options = options.concat("Manage Prison" + repeat(" ", 55));
-			options = options.concat("Remove Prison" + repeat(" ", 55));
+
 			options = options.concat("Reclaim Prison" + ChatColor.GRAY +  " Allows mayors to jail town residents." + ChatColor.GREEN + repeat(" ", 16));
-			input.add("remove prison");
 			input.add("reclaim prison");
 			input.add("manage prison");
 		}
@@ -161,11 +155,7 @@ public class TownGovernmentRegions extends StringPrompt {
 			return new ClaimLocalHall1(plugin, player, 0);
 		}
 		
-		// Remove Town Hall
-		if (arg.equalsIgnoreCase("remove town hall")) {
-			town.setTownHall(null);
-			return new TownGovernmentRegions(plugin, player, 0);
-		}
+
 		
 		// Manage Town Hall
 		if (arg.equalsIgnoreCase("manage town hall")) {
@@ -180,11 +170,6 @@ public class TownGovernmentRegions extends StringPrompt {
 			return new ClaimLocalBank1(plugin, player, 0);
 		}
 		
-		// Remove Bank
-		if (arg.equalsIgnoreCase("remove bank")) {
-			town.setBank(null);
-			return new TownGovernmentRegions(plugin, player, 0);
-		}
 		
 		// Manage bank
 		if (arg.equalsIgnoreCase("manage bank")) {
@@ -202,6 +187,18 @@ public class TownGovernmentRegions extends StringPrompt {
 		// Remove Park
 		if (arg.equalsIgnoreCase("remove park")) {
 			town.removePark(parkin);
+			for(String name: town.getCoMayors()) {
+				if(plugin.getServer().getPlayerExact(name).isConversing() && !name.equalsIgnoreCase(player.getName())) {
+					plugin.playerdata.get(name).getConversation().abandon();
+				}
+			}
+			if (plugin.getServer().getPlayerExact(town.getMayor()).isConversing() && !town.getMayor().equalsIgnoreCase(player.getName())) {
+				plugin.playerdata.get(town.getMayor()).getConversation().abandon();
+			}
+			for(Player playertarget:plugin.getServer().getOnlinePlayers()) {
+				PlayerMethods PM = new PlayerMethods(plugin, playertarget);
+				PM.resetLocationBooleans();
+			}
 			return new TownGovernmentRegions(plugin, player, 0);
 		}
 		
@@ -221,11 +218,6 @@ public class TownGovernmentRegions extends StringPrompt {
 			return new ClaimHospital1(plugin, player, 0);
 		}
 		
-		// Remove Hospital
-		if (arg.equalsIgnoreCase("remove hospital")) {
-			town.setHospital(null);
-			return new TownGovernmentRegions(plugin, player, 0);
-		}
 		
 		// Manage Hospital
 		if (arg.equalsIgnoreCase("manage hospital")) {
@@ -245,11 +237,6 @@ public class TownGovernmentRegions extends StringPrompt {
 			return new ClaimLocalPrison1(plugin, player, 0);
 		}
 		
-		// Remove Prison
-		if (arg.equalsIgnoreCase("remove prison")) {
-			town.setPrison(null);
-			return new TownGovernmentRegions(plugin, player, 0);
-		}
 		
 		// back
 		if (arg.equalsIgnoreCase("back")) {

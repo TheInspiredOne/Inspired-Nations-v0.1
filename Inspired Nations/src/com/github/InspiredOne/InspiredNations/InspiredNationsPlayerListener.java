@@ -1,7 +1,6 @@
 package com.github.InspiredOne.InspiredNations;
 
 
-import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -52,6 +51,8 @@ public class InspiredNationsPlayerListener implements Listener {
 			plugin.playerdata.put(playername, new PlayerData(plugin));
 		}
 		plugin.playermodes.put(playername, new PlayerModes(plugin));
+		PlayerMethods PM = new PlayerMethods(plugin, player);
+		PM.resetLocationBooleans();
 	}
 	
 	@EventHandler
@@ -164,7 +165,7 @@ public class InspiredNationsPlayerListener implements Listener {
 				if (PDI.getIsInTown()) {
 					Town town = PDI.getTownIn();
 					
-					if (!town.isIn(event.getTo())) {
+					if (!town.isIn(event.getTo()) || !PDI.getCountryIn().getTowns().contains(town)) {
 						PDI.setInTown(false);
 						PDI.setTownIn(null);
 						PDI.setInCapital(false);
@@ -389,7 +390,7 @@ public class InspiredNationsPlayerListener implements Listener {
 					}
 				}
 				
-				if (!PDI.getCountryIn().isIn(event.getTo())) {
+				if (!PDI.getCountryIn().isIn(event.getTo()) || !plugin.countrydata.containsKey(PDI.getCountryIn().getName().toLowerCase())) {
 					if (!PM.countryDeselect() && !PM.preDeselectCountry() && !PM.countrySelect() && !PM.preCountrySelect()) {
 						player.sendRawMessage("You have exited the country " + PDI.getCountryIn().getName() + ".");
 					}

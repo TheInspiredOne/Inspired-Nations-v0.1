@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.PlayerMethods;
 import com.github.InspiredOne.InspiredNations.PlayerModes;
 import com.github.InspiredOne.InspiredNations.Park.Park;
 import com.github.InspiredOne.InspiredNations.Prison.Local.LocalPrison;
@@ -209,10 +210,30 @@ public class ManagePark2 extends StringPrompt {
 		// Unclaim
 		if (args[0].equalsIgnoreCase("unclaim")) {
 			PDI.getTownMayored().removePark(park);
+			for(Player playertarget:plugin.getServer().getOnlinePlayers()) {
+				PlayerMethods PM = new PlayerMethods(plugin, playertarget);
+				PM.resetLocationBooleans();
+			}
 			if(PDI.getTownMayored().getParks().size() >=1) {
+				for(String name: town.getCoMayors()) {
+					if(plugin.getServer().getPlayerExact(name).isConversing() && !name.equalsIgnoreCase(player.getName())) {
+						plugin.playerdata.get(name).getConversation().abandon();
+					}
+				}
+				if (plugin.getServer().getPlayerExact(town.getMayor()).isConversing() && !town.getMayor().equalsIgnoreCase(player.getName())) {
+					plugin.playerdata.get(town.getMayor()).getConversation().abandon();
+				}
 				return new ManagePark1(plugin, player, 0);
 			}
 			else {
+				for(String name: town.getCoMayors()) {
+					if(plugin.getServer().getPlayerExact(name).isConversing() && !name.equalsIgnoreCase(player.getName())) {
+						plugin.playerdata.get(name).getConversation().abandon();
+					}
+				}
+				if (plugin.getServer().getPlayerExact(town.getMayor()).isConversing() && !town.getMayor().equalsIgnoreCase(player.getName())) {
+					plugin.playerdata.get(town.getMayor()).getConversation().abandon();
+				}
 				return new TownGovernmentRegions(plugin, player, 0);
 			}
 		}

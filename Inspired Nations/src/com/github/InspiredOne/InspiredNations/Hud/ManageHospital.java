@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.PlayerMethods;
 import com.github.InspiredOne.InspiredNations.PlayerModes;
 import com.github.InspiredOne.InspiredNations.Bank.Local.LocalBank;
 import com.github.InspiredOne.InspiredNations.Hospital.Hospital;
@@ -167,7 +168,8 @@ public class ManageHospital extends StringPrompt {
 			input.add("remove");
 		}
 		input.add("add");
-
+		options = options.concat("Unclaim" + repeat(" ", 55));
+		input.add("unclaim");
 		
 		return space + main + options + end + errormsg;
 	}
@@ -178,14 +180,12 @@ public class ManageHospital extends StringPrompt {
 			arg = arg.substring(1);
 		}
 		String[] args = arg.split(" ");
-		if (!input.contains(args[0].toLowerCase())) return new ManageBank(plugin, player, 1);
+		if (!input.contains(args[0].toLowerCase())) return new ManageHospital(plugin, player, 1);
 		// back
 		if (args[0].equalsIgnoreCase("back")){
 			return new TownGovernmentRegions(plugin, player, 0);
 		}
-		
-		if (args.length < 3) return new ManageBank(plugin, player, 10);
-		if (args.length > 3) return new ManageBank(plugin, player, 2);
+		if (args.length > 3) return new ManageHospital(plugin, player, 2);
 		
 		// add
 		if (args[0].equalsIgnoreCase("add")){
@@ -205,6 +205,24 @@ public class ManageHospital extends StringPrompt {
 			
 			hospital.removeBuilder(args[2]);
 			return new ManageHospital(plugin, player, 0);
+		}
+		
+		// Remove Hospital
+		if (arg.equalsIgnoreCase("unclaim")) {
+			town.setHospital(null);
+			for(String name: town.getCoMayors()) {
+				if(plugin.getServer().getPlayerExact(name).isConversing() && !name.equalsIgnoreCase(player.getName())) {
+					plugin.playerdata.get(name).getConversation().abandon();
+				}
+			}
+			if (plugin.getServer().getPlayerExact(town.getMayor()).isConversing() && !town.getMayor().equalsIgnoreCase(player.getName())) {
+				plugin.playerdata.get(town.getMayor()).getConversation().abandon();
+			}
+			for(Player playertarget:plugin.getServer().getOnlinePlayers()) {
+				PlayerMethods PM = new PlayerMethods(plugin, playertarget);
+				PM.resetLocationBooleans();
+			}
+			return new TownGovernmentRegions(plugin, player, 0);
 		}
 
 		return new ManageHospital(plugin, player, 0);

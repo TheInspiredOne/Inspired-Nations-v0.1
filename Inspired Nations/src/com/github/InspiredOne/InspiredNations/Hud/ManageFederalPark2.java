@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.PlayerMethods;
 import com.github.InspiredOne.InspiredNations.PlayerModes;
 import com.github.InspiredOne.InspiredNations.Country.Country;
 import com.github.InspiredOne.InspiredNations.House.House;
@@ -209,10 +210,30 @@ public class ManageFederalPark2 extends StringPrompt {
 		// Unclaim
 		if (args[0].equalsIgnoreCase("unclaim")) {
 			PDI.getCountryRuled().removePark(park);
+			for(Player playertarget:plugin.getServer().getOnlinePlayers()) {
+				PlayerMethods PM = new PlayerMethods(plugin, playertarget);
+				PM.resetLocationBooleans();
+			}
 			if (PDI.getCountryRuled().getParks().size() >= 1) {
+				for(String name: country.getCoRulers()) {
+					if(plugin.getServer().getPlayerExact(name).isConversing() && !name.equalsIgnoreCase(player.getName())) {
+						plugin.playerdata.get(name).getConversation().abandon();
+					}
+				}
+				if (plugin.getServer().getPlayerExact(country.getRuler()).isConversing() && !country.getRuler().equalsIgnoreCase(player.getName())) {
+					plugin.playerdata.get(country.getRuler()).getConversation().abandon();
+				}
 				return new ManageFederalPark1(plugin, player, 0);
 			}
 			else {
+				for(String name: country.getCoRulers()) {
+					if(plugin.getServer().getPlayerExact(name).isConversing() && !name.equalsIgnoreCase(player.getName())) {
+						plugin.playerdata.get(name).getConversation().abandon();
+					}
+				}
+				if (plugin.getServer().getPlayerExact(country.getRuler()).isConversing() && !country.getRuler().equalsIgnoreCase(player.getName())) {
+					plugin.playerdata.get(country.getRuler()).getConversation().abandon();
+				}
 				return new CountryGovernmentRegions(plugin, player, 0);
 			}
 			

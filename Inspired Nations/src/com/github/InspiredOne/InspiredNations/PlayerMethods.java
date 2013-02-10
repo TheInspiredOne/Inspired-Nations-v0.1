@@ -3,12 +3,14 @@ package com.github.InspiredOne.InspiredNations;
 import java.util.Vector;
 
 
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import com.github.InspiredOne.InspiredNations.Business.Good.GoodBusiness;
 import com.github.InspiredOne.InspiredNations.Business.Service.ServiceBusiness;
 import com.github.InspiredOne.InspiredNations.Country.Country;
 import com.github.InspiredOne.InspiredNations.House.House;
+import com.github.InspiredOne.InspiredNations.Park.Park;
 import com.github.InspiredOne.InspiredNations.Town.Town;
 
 public class PlayerMethods {
@@ -302,5 +304,122 @@ public class PlayerMethods {
 	public boolean transferCountry(Country countryTo) {
 		leaveCountry();
 		return joinCountry(countryTo);
+	}
+	public void setLocationBooleansFalse() {
+		PDI.setInCountry(false);
+		PDI.setCountryIn(null);
+		PDI.setInTown(false);
+		PDI.setTownIn(null);
+		PDI.setInHouse(false);
+		PDI.setHouseIn(null);
+		PDI.setInFederalBank(false);
+		PDI.setFederalBankIn(null);
+		PDI.setInFederalPark(false);
+		PDI.setFederalParkIn(null);
+		PDI.setInLocalHall(false);
+		PDI.setLocalHallIn(null);
+		PDI.setInLocalBank(false);
+		PDI.setLocalBankIn(null);
+		PDI.setInLocalPark(false);
+		PDI.setLocalParkIn(null);
+		PDI.setInCapital(false);
+		PDI.setInHospital(false);
+		PDI.setHospitalIn(null);
+		PDI.setInGoodBusiness(false);
+		PDI.setGoodBusinessIn(null);
+		PDI.setInServiceBusiness(false);
+		PDI.setServiceBusinessIn(null);
+		PDI.setInLocalPrison(false);
+		PDI.setLocalPrisonIn(null);
+	}
+	public void resetLocationBooleans() {
+		Location spot = player.getLocation();
+		this.setLocationBooleansFalse();
+		// Country
+		for (String name: plugin.countrydata.keySet()) {
+			Country country = plugin.countrydata.get(name);
+			if (country.isIn(spot)) {
+				PDI.setInCountry(true);
+				PDI.setCountryIn(country);
+				// Town
+				for(Town town: PDI.getCountryIn().getTowns()) {
+					if (town.isIn(spot)) {
+						PDI.setInTown(true);
+						PDI.setTownIn(town);
+						// Capital
+						if(town.isCapital()) {
+							PDI.setInCapital(true);
+						}
+						// Bank
+						if(town.hasBank()) {
+							if(town.getBank().isIn(spot)) {
+								PDI.setInLocalBank(true);
+								PDI.setLocalBankIn(town.getBank());
+							}
+						}
+						// Town Hall
+						if(town.hasTownHall()) {
+							if(town.getTownHall().isIn(spot)) {
+								PDI.setInLocalHall(true);
+								PDI.setLocalHallIn(town.getTownHall());
+							}
+						}
+						// Hospital
+						if(town.hasHospital()) {
+							if(town.getHospital().isIn(spot)) {
+								PDI.setInHospital(true);
+								PDI.setHospitalIn(town.getHospital());
+							}
+						}
+						// Prison
+						if(town.hasPrison()) {
+							if(town.getPrison().isIn(spot)) {
+								PDI.setInLocalPrison(true);
+								PDI.setLocalPrisonIn(town.getPrison());
+							}
+						}
+						// Parks
+						for(Park park:town.getParks()) {
+							if(park.isIn(spot)) {
+								PDI.setInLocalPark(true);
+								PDI.setLocalParkIn(park);
+							}
+						}
+						// House
+						for(House house:town.getHouses()) {
+							if(house.isIn(spot)) {
+								PDI.setInHouse(true);
+								PDI.setHouseIn(house);
+							}
+						}
+						// Good Business
+						for(GoodBusiness business:town.getGoodBusinesses()) {
+							if(business.isIn(spot)) {
+								PDI.setInGoodBusiness(true);
+								PDI.setGoodBusinessIn(business);
+							}
+						}
+						// Service Business
+						for(ServiceBusiness business:town.getServiceBusinesses()) {
+							if(business.isIn(spot)) {
+								PDI.setInServiceBusiness(true);
+								PDI.setServiceBusinessIn(business);
+							}
+						}
+						break;
+					}
+				}
+				// Federal Park
+				for(Park park:country.getParks()) {
+					if(park.isIn(spot)) {
+						PDI.setInFederalPark(true);
+						PDI.setFederalParkIn(park);
+						break;
+					}
+				}
+				break;
+			}
+			
+		}
 	}
 }

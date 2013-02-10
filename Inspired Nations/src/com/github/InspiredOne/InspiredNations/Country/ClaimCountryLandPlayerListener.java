@@ -10,6 +10,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.PlayerMethods;
 import com.github.InspiredOne.InspiredNations.PlayerModes;
 import com.github.InspiredOne.InspiredNations.Regions.Chunks;
 
@@ -82,6 +83,10 @@ public class ClaimCountryLandPlayerListener{
 			country.setArea(area);
 			plugin.chunks.put(tile, country.getName().toLowerCase());
 			player.sendRawMessage(generateMap(country, player));
+			for(Player playertarget:plugin.getServer().getOnlinePlayers()) {
+				PlayerMethods PM = new PlayerMethods(plugin, playertarget);
+				PM.resetLocationBooleans();
+			}
 		}
 	}
 

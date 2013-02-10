@@ -13,8 +13,11 @@ import org.bukkit.entity.Player;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Business.Good.GoodBusiness;
+import com.github.InspiredOne.InspiredNations.Business.Service.ServiceBusiness;
 import com.github.InspiredOne.InspiredNations.Country.Country;
 import com.github.InspiredOne.InspiredNations.Country.CountryMethods;
+import com.github.InspiredOne.InspiredNations.Town.Town;
 
 public class ManageCountry extends StringPrompt{
 
@@ -114,9 +117,11 @@ public class ManageCountry extends StringPrompt{
 		if (country.getPluralMoney().isEmpty() || country.getSingularMoney().isEmpty() || country.getMoneyMultiplyer().equals(new BigDecimal(Math.PI))) {
 			options = options.concat(ChatColor.DARK_AQUA + repeat("-", 53) + ChatColor.GREEN);
 			options = options.concat("Setup Economy" + repeat (" ", 60));
+			options = options.concat("Rename <name>" + repeat(" ", 61));
 			options = options.concat("Transfer LeaderShip" + repeat(" ", 53));
 			input.add("setup");
 			input.add("transfer");
+			input.add("rename");
 			// Building the error message
 			if (error == 1) {
 				errormsg = errormsg.concat(ChatColor.RED + "That is not an option. Check your spelling?");
@@ -132,6 +137,9 @@ public class ManageCountry extends StringPrompt{
 			}
 			if (error == 5) {
 				errormsg = errormsg.concat(ChatColor.RED + "Put the name of the player you want to add as CoMayor.");
+			}
+			if (error == 7) {
+				errormsg = errormsg.concat(ChatColor.RED+ "That country name is already taken.");
 			}
 			return space + main + options + end + errormsg;
 		}
@@ -142,10 +150,12 @@ public class ManageCountry extends StringPrompt{
 			options = options.concat(ChatColor.DARK_AQUA + repeat("-", 53) + ChatColor.GREEN);
 			options = options.concat("Manage Economy" + repeat(" ", 60));
 			options = options.concat("Transfer LeaderShip" + repeat(" ", 53));
+			options = options.concat("Rename <name>" + repeat(" ", 61));
 			options = options.concat("Protection Level" + repeat(" ", 58));
 			input.add("manage");
 			input.add("transfer");
 			input.add("protection");
+			input.add("rename");
 			// Building the error message
 			if (error == 1) {
 				errormsg = errormsg.concat(ChatColor.RED + "That is not an option. Check your spelling?");
@@ -161,6 +171,9 @@ public class ManageCountry extends StringPrompt{
 			}
 			if (error == 5) {
 				errormsg = errormsg.concat(ChatColor.RED + "Put the name of the player you want to add as CoMayor.");
+			}
+			if (error == 7) {
+				errormsg = errormsg.concat(ChatColor.RED+ "That country name is already taken.");
 			}
 			return space + main + options + end + errormsg;
 		}
@@ -170,11 +183,13 @@ public class ManageCountry extends StringPrompt{
 			options = options.concat("Add CoRuler <player>" + repeat(" ", 50));
 			options = options.concat("Manage Economy" + repeat(" ", 60));
 			options = options.concat("Transfer LeaderShip" + repeat(" ", 53));
+			options = options.concat("Rename <name>" + repeat(" ", 61));
 			options = options.concat("Protection Level" + repeat(" ", 58));
 			input.add("add");
 			input.add("manage");
 			input.add("transfer");
 			input.add("protection");
+			input.add("rename");
 			// Building the error message
 			if (error == 1) {
 				errormsg = errormsg.concat(ChatColor.RED + "That is not an option. Check your spelling?");
@@ -190,6 +205,9 @@ public class ManageCountry extends StringPrompt{
 			}
 			if (error == 5) {
 				errormsg = errormsg.concat(ChatColor.RED + "Put the name of the player you want to add as CoMayor.");
+			}
+			if (error == 7) {
+				errormsg = errormsg.concat(ChatColor.RED+ "That country name is already taken.");
 			}
 			return space + main + options + end + errormsg;
 		}
@@ -212,8 +230,10 @@ public class ManageCountry extends StringPrompt{
 		}
 		options = options.concat("Manage Economy" + repeat(" ", 60));
 		options = options.concat("Transfer LeaderShip" + repeat(" ", 53));
+		options = options.concat("Rename <name>" + repeat(" ", 61));
 		options = options.concat("Protection Level" + repeat(" ", 58));
 		input.add("manage");
+		input.add("rename");
 		input.add("transfer");
 		input.add("protection");
 		
@@ -236,6 +256,9 @@ public class ManageCountry extends StringPrompt{
 		}
 		if (error == 6) {
 			errormsg = errormsg.concat(ChatColor.RED + "That player is the ruler of this country.");
+		}
+		if (error == 7) {
+			errormsg = errormsg.concat(ChatColor.RED+ "That country name is already taken.");
 		}
 		return space + main + options + end + errormsg;
 	}
@@ -273,6 +296,24 @@ public class ManageCountry extends StringPrompt{
 			
 		}
 		else if (args[0].equalsIgnoreCase("Add") && args.length != 3) return new ManageCountry(plugin, player, 5);
+		
+		// Rename
+		if (args[0].equalsIgnoreCase("rename")) {
+			String tempname = "";
+			for(int i = 0; i < args.length - 1; i++) {
+				tempname = tempname.concat(args[i+1] + " ");
+			}
+			tempname = tempname.substring(0, tempname.length()-1);
+			for(String countryname:plugin.countrydata.keySet()) {
+				if(countryname.equalsIgnoreCase(tempname)) {
+					return new ManageCountry(plugin, player, 7);
+				}
+			}
+			plugin.countrydata.remove(country.getName());
+			country.setName(tempname);
+			plugin.countrydata.put(tempname.toLowerCase(), country);
+			return new ManageCountry(plugin, player, 0);
+		}
 		
 		// Manage Economy
 		if (args[0].equalsIgnoreCase("Manage")) {

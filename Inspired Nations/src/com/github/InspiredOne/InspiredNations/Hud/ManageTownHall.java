@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.PlayerMethods;
 import com.github.InspiredOne.InspiredNations.PlayerModes;
 import com.github.InspiredOne.InspiredNations.Hall.Local.LocalHall;
 import com.github.InspiredOne.InspiredNations.Town.Town;
@@ -163,6 +164,8 @@ public class ManageTownHall extends StringPrompt{
 			input.add("remove");
 		}
 		input.add("add");
+		options = options.concat(ChatColor.GREEN + "Unclaim" + repeat(" ", 55));
+		input.add("unclaim");
 
 		
 		return space + main + options + end + errormsg;
@@ -180,8 +183,25 @@ public class ManageTownHall extends StringPrompt{
 			return new TownGovernmentRegions(plugin, player, 0);
 		}
 		
-		if (args.length < 3) return new ManageTownHall(plugin, player, 10);
 		if (args.length > 3) return new ManageTownHall(plugin, player, 2);
+		
+		// Remove Town Hall
+		if (arg.equalsIgnoreCase("unclaim")) {
+			town.setTownHall(null);
+			for(String name: town.getCoMayors()) {
+				if(plugin.getServer().getPlayerExact(name).isConversing() && !name.equalsIgnoreCase(player.getName())) {
+					plugin.playerdata.get(name).getConversation().abandon();
+				}
+			}
+			if (plugin.getServer().getPlayerExact(town.getMayor()).isConversing() && !town.getMayor().equalsIgnoreCase(player.getName())) {
+				plugin.playerdata.get(town.getMayor()).getConversation().abandon();
+			}
+			for(Player playertarget:plugin.getServer().getOnlinePlayers()) {
+				PlayerMethods PM = new PlayerMethods(plugin, playertarget);
+				PM.resetLocationBooleans();
+			}
+			return new TownGovernmentRegions(plugin, player, 0);
+		}
 		
 		// add
 		if (args[0].equalsIgnoreCase("add")){

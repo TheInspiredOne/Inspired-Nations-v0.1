@@ -12,6 +12,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.PlayerMethods;
 import com.github.InspiredOne.InspiredNations.PlayerModes;
 import com.github.InspiredOne.InspiredNations.Regions.Chunks;
 import com.github.InspiredOne.InspiredNations.Town.Town;
@@ -57,6 +58,7 @@ public class UnclaimCountryLandPlayerListener{
 			area.removeChunk(tile);
 			country.setArea(area);
 			plugin.chunks.remove(tile);
+
 			
 			// Check towns to see if any of them got cut out
 			for (Iterator<Town> i = country.getTowns().iterator(); i.hasNext();) {
@@ -65,6 +67,11 @@ public class UnclaimCountryLandPlayerListener{
 					town.getRegion().removeChunk(tile);
 					town.removeCutOutRegions();
 				}
+			}
+			
+			for(Player playertarget:plugin.getServer().getOnlinePlayers()) {
+				PlayerMethods PM = new PlayerMethods(plugin, playertarget);
+				PM.resetLocationBooleans();
 			}
 			player.sendRawMessage(generateMap(country, player));
 		}

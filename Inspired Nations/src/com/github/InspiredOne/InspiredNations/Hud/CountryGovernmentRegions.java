@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.PlayerMethods;
 import com.github.InspiredOne.InspiredNations.PlayerModes;
 import com.github.InspiredOne.InspiredNations.Country.Country;
 import com.github.InspiredOne.InspiredNations.Park.Park;
@@ -157,6 +158,18 @@ public class CountryGovernmentRegions extends StringPrompt {
 		// Unclaim Park
 		if (arg.equalsIgnoreCase("unclaim park")) {
 			country.removePark(parkin);
+			for(Player playertarget:plugin.getServer().getOnlinePlayers()) {
+				PlayerMethods PM = new PlayerMethods(plugin, playertarget);
+				PM.resetLocationBooleans();
+			}
+			for(String name: country.getCoRulers()) {
+				if(plugin.getServer().getPlayerExact(name).isConversing() && !name.equalsIgnoreCase(player.getName())) {
+					plugin.playerdata.get(name).getConversation().abandon();
+				}
+			}
+			if (plugin.getServer().getPlayerExact(country.getRuler()).isConversing() && !country.getRuler().equalsIgnoreCase(player.getName())) {
+				plugin.playerdata.get(country.getRuler()).getConversation().abandon();
+			}
 			PDI.setFederalParkIn(null);
 			PDI.setInFederalPark(false);
 			return new CountryGovernmentRegions(plugin, player, 0);

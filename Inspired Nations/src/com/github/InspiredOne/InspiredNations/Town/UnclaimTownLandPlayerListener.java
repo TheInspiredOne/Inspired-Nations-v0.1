@@ -12,6 +12,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.PlayerMethods;
 import com.github.InspiredOne.InspiredNations.PlayerModes;
 import com.github.InspiredOne.InspiredNations.TownMethods;
 import com.github.InspiredOne.InspiredNations.Country.Country;
@@ -60,6 +61,10 @@ public class UnclaimTownLandPlayerListener {
 			area.removeChunk(tile);
 			town.setArea(area);
 			town.removeCutOutRegions();
+			for(Player playertarget:plugin.getServer().getOnlinePlayers()) {
+				PlayerMethods PM = new PlayerMethods(plugin, playertarget);
+				PM.resetLocationBooleans();
+			}
 			player.sendRawMessage(generateMap(town, player));
 		}
 	}

@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.PlayerMethods;
 import com.github.InspiredOne.InspiredNations.PlayerModes;
 import com.github.InspiredOne.InspiredNations.TownMethods;
 import com.github.InspiredOne.InspiredNations.Country.Country;
@@ -90,6 +91,10 @@ public class ClaimTownLandPlayerListener {
 						towntest.getRegion().removeChunk(tile);
 					}
 				}
+			}
+			for(Player playertarget:plugin.getServer().getOnlinePlayers()) {
+				PlayerMethods PM = new PlayerMethods(plugin, playertarget);
+				PM.resetLocationBooleans();
 			}
 			
 			player.sendRawMessage(generateMap(town, player));
