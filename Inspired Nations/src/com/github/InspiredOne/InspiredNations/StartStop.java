@@ -20,7 +20,7 @@ public class StartStop {
 	
 	public void Start() {
 		PluginDescriptionFile pdf = plugin.getDescription();
-		plugin.logger.info(pdf.getName() + " version " + pdf.getVersion() + " has been enabled.");
+		plugin.getLogger().info(pdf.getName() + " version " + pdf.getVersion() + " has been enabled.");
 		
 		// Handles Commands
 		plugin.getCommand("hud").setExecutor(plugin.InspiredNationsCE);
@@ -60,7 +60,7 @@ public class StartStop {
 		catch (Exception ex) {	
 		}
 		PluginDescriptionFile pdf = plugin.getDescription();
-		plugin.logger.info(pdf.getName() + " version " + pdf.getVersion() + " has been disabled.");
+		plugin.getLogger().info(pdf.getName() + " version " + pdf.getVersion() + " has been disabled.");
 		SF.saveDataFile();
 	}
 }

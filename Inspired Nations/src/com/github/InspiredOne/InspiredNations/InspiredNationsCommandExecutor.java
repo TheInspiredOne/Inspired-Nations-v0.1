@@ -5,6 +5,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.conversations.Conversation;
+import org.bukkit.entity.Player;
 
 import com.github.InspiredOne.InspiredNations.Hud.ConversationBuilder;
 
@@ -17,6 +18,11 @@ public class InspiredNationsCommandExecutor implements CommandExecutor {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String CommandLable, String[] args) {
+		if(!(sender instanceof Player)) {
+			plugin.logger.info("HUD cannot be called from console.");
+			return false;
+		}
+		
 		PlayerData PDI = plugin.playerdata.get(sender.getName().toLowerCase());
 		if (CommandLable.equalsIgnoreCase("hud")) {
 			// Handles Commands

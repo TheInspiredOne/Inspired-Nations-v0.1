@@ -156,7 +156,7 @@ public class ManageHouse2 extends StringPrompt {
 			errormsg = errormsg.concat(ChatColor.RED + "That is not an option. Check your spelling?");
 		}
 		if (error == 2) {
-			errormsg = errormsg.concat(ChatColor.RED + "That house name is already being used in this town.");
+			errormsg = errormsg.concat(ChatColor.RED + "That house name is already being used in this country.");
 		}
 		if (error == 3) {
 			errormsg = errormsg.concat(ChatColor.RED + "That player is not a builder.");
@@ -222,10 +222,12 @@ public class ManageHouse2 extends StringPrompt {
 				tempname = tempname.concat(args[i+1] + " ");
 			}
 			tempname = tempname.substring(0, tempname.length()-1);
-			for (House housetest: town.getHouses()) {
-				if (housetest.getName().equalsIgnoreCase(tempname) && !housetest.equals(house)) {
-					return new ManageHouse2(plugin, player, 2, name);
-				}
+			for(Town towntest: PDI.getCountryResides().getTowns()) {
+				for (House housetest: towntest.getHouses()) {
+					if (housetest.getName().equalsIgnoreCase(tempname) && !housetest.equals(house)) {
+						return new ManageHouse2(plugin, player, 2, name);
+					}
+				}	
 			}
 			house.setName(tempname);
 			return new ManageHouse2(plugin, player, 0, tempname);

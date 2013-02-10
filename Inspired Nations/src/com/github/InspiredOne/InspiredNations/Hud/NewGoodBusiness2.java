@@ -234,7 +234,30 @@ public class NewGoodBusiness2 extends StringPrompt {
 						}
 					}
 				}
-				GoodBusiness businesstemp = new GoodBusiness(plugin, PM.getPolygon(), player, country.getName(), country.getTowns().indexOf(town), "Good Business " + (town.getGoodBusinesses().size() + 1));
+				
+				String BusinessName = "";
+				int test = 0;
+				boolean works = true;
+				for (Town towntest: country.getTowns()) {
+					test+=towntest.getGoodBusinesses().size();
+				}
+				while(BusinessName.isEmpty()) {
+					works = true;
+					for(Town towntest:country.getTowns()) {
+						if(towntest.getGoodBusinesses().contains("Good Business " + test)) {
+							works = false;
+							break;
+						}
+					}
+					if (!works) {
+						test +=1;
+					}
+					else {
+						BusinessName = "Good Business " + test;
+					}
+				}
+				
+				GoodBusiness businesstemp = new GoodBusiness(plugin, PM.getPolygon(), player, country.getName(), country.getTowns().indexOf(town), BusinessName);
 				PDI.addGoodBusinessOwned(businesstemp);
 				PDI.setIsGoodBusinessOwner(true);
 				PDI.getTownResides().addGoodBusiness(businesstemp);
@@ -325,7 +348,29 @@ public class NewGoodBusiness2 extends StringPrompt {
 						}
 					}
 				}
-				GoodBusiness businesstemp = new GoodBusiness(plugin, PM.getCuboid(), player, country.getName(), country.getTowns().indexOf(town), "Good Business " + (town.getGoodBusinesses().size() + 1));
+				
+				String BusinessName = "";
+				int test = 0;
+				boolean works = true;
+				for (Town towntest: country.getTowns()) {
+					test+=towntest.getGoodBusinesses().size();
+				}
+				while(BusinessName.isEmpty()) {
+					works = true;
+					for(Town towntest:country.getTowns()) {
+						if(towntest.getGoodBusinesses().contains("Good Business " + test)) {
+							works = false;
+							break;
+						}
+					}
+					if (!works) {
+						test +=1;
+					}
+					else {
+						BusinessName = "Good Business " + test;
+					}
+				}
+				GoodBusiness businesstemp = new GoodBusiness(plugin, PM.getCuboid(), player, country.getName(), country.getTowns().indexOf(town), BusinessName);
 				PDI.addGoodBusinessOwned(businesstemp);
 				PDI.setIsGoodBusinessOwner(true);
 				PDI.getTownResides().addGoodBusiness(businesstemp);

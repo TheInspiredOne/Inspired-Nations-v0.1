@@ -238,7 +238,17 @@ public class ClaimPark2 extends StringPrompt {
 						}
 					}
 				}
-				town.addPark(new Park(plugin, PM.getPolygon(), town.getCountry(), plugin.countrydata.get(town.getCountry().toLowerCase()).getTowns().indexOf(town),("Park " + (town.getParks().size()+1))));
+				String ParkName = "";
+				int test = town.getParks().size();
+				while(ParkName.isEmpty()) {
+					if(town.getParks().contains("Park " + test)) {
+						test +=1;
+					}
+					else {
+						ParkName = "Park " + test;
+					}
+				}
+				town.addPark(new Park(plugin, PM.getPolygon(), town.getCountry(), plugin.countrydata.get(town.getCountry().toLowerCase()).getTowns().indexOf(town),(ParkName)));
 			}
 			
 			if (PM.isSelectingCuboid()) {
@@ -326,7 +336,18 @@ public class ClaimPark2 extends StringPrompt {
 						}
 					}
 				}
-				town.addPark(new Park(plugin, PM.getCuboid(), town.getCountry(), plugin.countrydata.get(town.getCountry().toLowerCase()).getTowns().indexOf(town),("Park " + (town.getParks().size()+1))));
+				String ParkName = "";
+				int test = town.getParks().size();
+				while(ParkName.isEmpty()) {
+					if(town.getParks().contains("Park " + test)) {
+						test +=1;
+					}
+					else {
+						ParkName = "Park " + test;
+					}
+				}
+				
+				town.addPark(new Park(plugin, PM.getCuboid(), town.getCountry(), plugin.countrydata.get(town.getCountry().toLowerCase()).getTowns().indexOf(town),ParkName));
 			}
 			PM.selectCuboid(false);
 			PM.selectPolygon(false);

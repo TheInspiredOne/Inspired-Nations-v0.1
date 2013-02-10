@@ -231,7 +231,19 @@ public class ClaimFederalPark2 extends StringPrompt{
 				}
 				PM.setBlocksBack();
 				PM.federalPark(false);
-				country.addPark(new Park(plugin, PM.getPolygon(), country.getName(), -1, "Park " + (country.getParks().size()+1)));
+				
+				String ParkName = "";
+				int test = country.getParks().size();
+				while(ParkName.isEmpty()) {
+					if(country.getParks().contains("Park " + test)) {
+						test +=1;
+					}
+					else {
+						ParkName = "Park " + test;
+					}
+				}
+				
+				country.addPark(new Park(plugin, PM.getPolygon(), country.getName(), -1, ParkName));
 			}
 			else {
 				if (PM.getCuboid().Volume() == 0) {
@@ -269,7 +281,19 @@ public class ClaimFederalPark2 extends StringPrompt{
 				}
 				PM.setBlocksBack();
 				PM.federalPark(false);
-				country.addPark(new Park(plugin, PM.getCuboid(), country.getName(), -1, "Park " + country.getParks().size()+1));
+				
+				String ParkName = "";
+				int test = country.getParks().size();
+				while(ParkName.isEmpty()) {
+					if(country.getParks().contains("Park " + test)) {
+						test +=1;
+					}
+					else {
+						ParkName = "Park " + test;
+					}
+				}
+				
+				country.addPark(new Park(plugin, PM.getCuboid(), country.getName(), -1, ParkName));
 
 			}
 			

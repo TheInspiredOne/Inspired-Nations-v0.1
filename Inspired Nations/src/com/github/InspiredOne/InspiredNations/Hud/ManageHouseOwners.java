@@ -114,7 +114,7 @@ public class ManageHouseOwners extends StringPrompt {
 	public Vector<String> find(String name, Vector<String> test) {
 		Vector<String> list = new Vector<String>();
 		for (String nametest:test) {
-			if (nametest.toLowerCase().contains(name.toLowerCase())) {
+			if (nametest.toLowerCase().contains(name.toLowerCase()) && !nametest.equalsIgnoreCase(player.getName())) {
 				list.add(nametest);
 			}
 			if (nametest.equalsIgnoreCase(name)) {
@@ -162,6 +162,9 @@ public class ManageHouseOwners extends StringPrompt {
 		if (error == 6) {
 			errormsg = errormsg.concat(ChatColor.RED + "That player has not requested ownership of your house.");
 		}
+		if (error == 7) {
+			errormsg = errormsg.concat(ChatColor.RED + "That player is not a citizen of this country.");
+		}
 		if (error == 9) {
 			errormsg = errormsg.concat(ChatColor.RED + "Add more letters. It could be: " + format(buildernames) + ". ");
 		}
@@ -177,7 +180,7 @@ public class ManageHouseOwners extends StringPrompt {
 		
 		options = options.concat(ChatColor.GREEN + "Accept Request <player>" + repeat(" ", 45));
 		options = options.concat("Reject Request <player>" + repeat(" ", 45));
-		options = options.concat("Offer <player>" + repeat(" ", 59));
+		options = options.concat("Offer Owner <player>" + repeat(" ", 52));
 		options = options.concat("Undo Offer <player>" + repeat( " ", 52));
 		options = options.concat("Remove Owner <player>" + repeat(" ", 45));
 		input.add("accept");
@@ -248,9 +251,9 @@ public class ManageHouseOwners extends StringPrompt {
 		}
 		
 		// Offer Owner
-		if (args[0].equalsIgnoreCase("Offer") && args.length == 2) {
+		if (args[0].equalsIgnoreCase("offer") && args.length == 3) {
 			if (find(args[2], PDI.getCountryResides().getResidents()).size() == 1) args[2] = find(args[2]).get(0);
-			else if (find(args[2], PDI.getCountryResides().getResidents()).size() == 0) return new ManageHouseOwners(plugin, player, 6, name);
+			else if (find(args[2], PDI.getCountryResides().getResidents()).size() == 0) return new ManageHouseOwners(plugin, player, 7, name);
 			else return new ManageHouseOwners(plugin, player, 9, name, find(args[2], PDI.getCountryResides().getResidents()));
 			
 			house.addOwnerOffer(plugin.getServer().getPlayerExact(args[2]));

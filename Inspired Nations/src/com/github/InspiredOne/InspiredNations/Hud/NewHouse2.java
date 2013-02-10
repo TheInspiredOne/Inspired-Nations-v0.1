@@ -235,7 +235,30 @@ public class NewHouse2 extends StringPrompt{
 						}
 					}
 				}
-				House housetemp = new House(plugin, PM.getPolygon(), player, country.getName(), country.getTowns().indexOf(town), "House " + (town.getHouses().size()+1));
+				
+				String HouseName = "";
+				int test = 0;
+				boolean works = true;
+				for (Town towntest: country.getTowns()) {
+					test+=towntest.getHouses().size();
+				}
+				while(HouseName.isEmpty()) {
+					works = true;
+					for(Town towntest:country.getTowns()) {
+						if(towntest.getHouses().contains("House " + test)) {
+							works = false;
+							break;
+						}
+					}
+					if (!works) {
+						test +=1;
+					}
+					else {
+						HouseName = "House " + test;
+					}
+				}
+				
+				House housetemp = new House(plugin, PM.getPolygon(), player, country.getName(), country.getTowns().indexOf(town), HouseName);
 				PDI.addHousesOwned(housetemp);
 				PDI.setIsHouseOwner(true);
 				PDI.getTownResides().addHouse(housetemp);
@@ -326,7 +349,30 @@ public class NewHouse2 extends StringPrompt{
 						}
 					}
 				}
-				House housetemp = new House(plugin, PM.getCuboid(), player, country.getName(), country.getTowns().indexOf(town), "House " + (town.getHouses().size()+1));
+				
+				String HouseName = "";
+				int test = 0;
+				boolean works = true;
+				for (Town towntest: country.getTowns()) {
+					test+=towntest.getHouses().size();
+				}
+				while(HouseName.isEmpty()) {
+					works = true;
+					for(Town towntest:country.getTowns()) {
+						if(towntest.getHouses().contains("House " + test)) {
+							works = false;
+							break;
+						}
+					}
+					if (!works) {
+						test +=1;
+					}
+					else {
+						HouseName = "House " + test;
+					}
+				}
+				
+				House housetemp = new House(plugin, PM.getCuboid(), player, country.getName(), country.getTowns().indexOf(town), HouseName);
 				PDI.addHousesOwned(housetemp);
 				PDI.setIsHouseOwner(true);
 				PDI.getTownResides().addHouse(housetemp);

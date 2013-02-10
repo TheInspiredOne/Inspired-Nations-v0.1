@@ -314,7 +314,7 @@ public class ManageEmployment1 extends StringPrompt {
 			options = options.concat("Offer Employment <player>" + repeat(" ", 46));
 			options = options.concat("Remove Owner Offer <player>" + repeat(" ", 42));
 			options = options.concat("Remove Employment Offer <player>" + repeat(" ", 36));
-			options = options.concat("Employment Requests" + ChatColor.GRAY + "(" + (service.getEmployRequest().size() + service.getOwnerRequest().size()) + ")"
+			options = options.concat("Employment Requests " + ChatColor.GRAY + "(" + (service.getEmployRequest().size() + service.getOwnerRequest().size()) + ")"
 					+ ChatColor.GREEN + repeat(" ", 50));
 			input.add("fire owner");
 			input.add("fire employee");

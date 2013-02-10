@@ -234,7 +234,30 @@ public class NewServiceBusiness2 extends StringPrompt {
 						}
 					}
 				}
-				ServiceBusiness businesstemp = new ServiceBusiness(plugin, PM.getPolygon(), player, country.getName(), country.getTowns().indexOf(town), "Service Business " + (town.getServiceBusinesses().size() + 1));
+				
+				String BusinessName = "";
+				int test = 0;
+				boolean works = true;
+				for (Town towntest: country.getTowns()) {
+					test+=towntest.getServiceBusinesses().size();
+				}
+				while(BusinessName.isEmpty()) {
+					works = true;
+					for(Town towntest:country.getTowns()) {
+						if(towntest.getServiceBusinesses().contains("Service Business " + test)) {
+							works = false;
+							break;
+						}
+					}
+					if (!works) {
+						test +=1;
+					}
+					else {
+						BusinessName = "Service Business " + test;
+					}
+				}
+				
+				ServiceBusiness businesstemp = new ServiceBusiness(plugin, PM.getPolygon(), player, country.getName(), country.getTowns().indexOf(town), BusinessName);
 				PDI.addServiceBusinessOwned(businesstemp);
 				PDI.setIsServiceBusinessOwner(true);
 				PDI.getTownResides().addServiceBusiness(businesstemp);
@@ -326,7 +349,29 @@ public class NewServiceBusiness2 extends StringPrompt {
 						}
 					}
 				}
-				ServiceBusiness businesstemp = new ServiceBusiness(plugin, PM.getCuboid(), player, country.getName(), country.getTowns().indexOf(town), "Service Business " + (town.getServiceBusinesses().size() + 1));
+				
+				String BusinessName = "";
+				int test = 0;
+				boolean works = true;
+				for (Town towntest: country.getTowns()) {
+					test+=towntest.getServiceBusinesses().size();
+				}
+				while(BusinessName.isEmpty()) {
+					works = true;
+					for(Town towntest:country.getTowns()) {
+						if(towntest.getServiceBusinesses().contains("Service Business " + test)) {
+							works = false;
+							break;
+						}
+					}
+					if (!works) {
+						test +=1;
+					}
+					else {
+						BusinessName = "Service Business " + test;
+					}
+				}
+				ServiceBusiness businesstemp = new ServiceBusiness(plugin, PM.getCuboid(), player, country.getName(), country.getTowns().indexOf(town), BusinessName);
 				PDI.addServiceBusinessOwned(businesstemp);
 				PDI.setIsServiceBusinessOwner(true);
 				PDI.getTownResides().addServiceBusiness(businesstemp);

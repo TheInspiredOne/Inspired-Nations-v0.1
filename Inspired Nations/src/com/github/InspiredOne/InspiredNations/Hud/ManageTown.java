@@ -149,7 +149,7 @@ public class ManageTown extends StringPrompt{
 			options = options.concat(ChatColor.DARK_AQUA + repeat("-", 53) + ChatColor.GREEN);
 			options = options.concat("Add CoMayor <player>" + repeat(" ", 50));
 			options = options.concat("Manage Finances" + repeat(" ", 60));
-			options = options.concat("Transfer LeaderShip" + repeat(" ", 53));
+			options = options.concat("Transfer Leadership" + repeat(" ", 53));
 			options = options.concat("Protection Level" + repeat(" ", 58));
 			input.add("add");
 			input.add("manage");
