@@ -88,7 +88,7 @@ public class HudConversationMain extends StringPrompt{
 			inputs.put("new house", 1);
 		}
 		if (PDI.getIsCountryResident()) {
-			options = options.concat("Jobs" + repeat(" ", 60));
+			options = options.concat("Jobs " + repeat(" ", 60));
 			inputs.put("jobs", 1);
 		}
 		if (error == 1) {

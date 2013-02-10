@@ -173,7 +173,7 @@ public class ManageHouse2 extends StringPrompt {
 		options = options.concat(ChatColor.DARK_AQUA + repeat("-", 53) + ChatColor.GREEN);
 		
 		options = options.concat("Rename <name>" + repeat(" ",60));
-		options = options.concat("Manage Owners" + repeat(" ", 50));
+		options = options.concat("Manage Owners" + repeat(" ", 57));
 		options = options.concat("Add Builder <player>" + repeat(" ", 50));
 		if (house.getBuilders().size() > 0) {
 			options = options.concat("Remove Builder <player>" + repeat( " ", 50));

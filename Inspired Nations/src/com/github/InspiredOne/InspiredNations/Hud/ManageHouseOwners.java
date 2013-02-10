@@ -154,10 +154,13 @@ public class ManageHouseOwners extends StringPrompt {
 			errormsg = errormsg.concat(ChatColor.RED + "That house name is already being used in this town.");
 		}
 		if (error == 3) {
-			errormsg = errormsg.concat(ChatColor.RED + "That player is not a builder.");
+			errormsg = errormsg.concat(ChatColor.RED + "That player is not an owner.");
+		}
+		if (error == 4) {
+			errormsg = errormsg.concat(ChatColor.RED + "That player has not been offered ownership.");
 		}
 		if (error == 6) {
-			errormsg = errormsg.concat(ChatColor.RED + "That player does not exist on this server or is already a builder.");
+			errormsg = errormsg.concat(ChatColor.RED + "That player has not requested ownership of your house.");
 		}
 		if (error == 9) {
 			errormsg = errormsg.concat(ChatColor.RED + "Add more letters. It could be: " + format(buildernames) + ". ");
@@ -173,11 +176,15 @@ public class ManageHouseOwners extends StringPrompt {
 		options = options.concat(ChatColor.DARK_AQUA + repeat("-", 53) + ChatColor.GREEN);
 		
 		options = options.concat(ChatColor.GREEN + "Accept Request <player>" + repeat(" ", 45));
-		options = options.concat("Offer <player" + repeat(" ", 50));
+		options = options.concat("Reject Request <player>" + repeat(" ", 45));
+		options = options.concat("Offer <player>" + repeat(" ", 59));
+		options = options.concat("Undo Offer <player>" + repeat( " ", 52));
 		options = options.concat("Remove Owner <player>" + repeat(" ", 45));
 		input.add("accept");
 		input.add("offer");
 		input.add("remove");
+		input.add("reject");
+		input.add("undo");
 		
 		return space + main+options + end + errormsg;
 	}
@@ -187,12 +194,68 @@ public class ManageHouseOwners extends StringPrompt {
 		if (arg.startsWith("/")) {
 			arg = arg.substring(1);
 		}
+		
+		String[] args = arg.split(" ");
+		if (args.length < 3 && !arg.equalsIgnoreCase("back")) return new ManageHouseOwners(plugin, player, 1, name);
+		if (!input.contains(args[0].toLowerCase())) return new ManageHouseOwners(plugin, player, 1, name);
 		// Back
 		if (arg.equalsIgnoreCase("back")) {
 			return new ManageHouse2(plugin, player, 0, name);
 		}
+
+		// Accept Request to become co-owner of your house.
+		if (args[0].equalsIgnoreCase("accept") && args.length == 3) {
+			if (find(args[2], house.getOwnerRequest()).size() == 1) args[2] = find(args[2]).get(0);
+			else if (find(args[2], house.getOwnerRequest()).size() == 0) return new ManageHouseOwners(plugin, player, 6, name);
+			else return new ManageHouseOwners(plugin, player, 9, name, find(args[2], house.getOwnerRequest()));
+			
+			house.addOwner(plugin.getServer().getPlayerExact(args[2]));
+			plugin.playerdata.get(args[2]).addHousesOwned(house);
+			return new ManageHouseOwners(plugin, player, 0, name);
+		}
 		
-		// 
+		// Reject Request
+		if (args[0].equalsIgnoreCase("reject") && args.length == 3) {
+			if (find(args[2], house.getOwnerRequest()).size() == 1) args[2] = find(args[2]).get(0);
+			else if (find(args[2], house.getOwnerRequest()).size() == 0) return new ManageHouseOwners(plugin, player, 6, name);
+			else return new ManageHouseOwners(plugin, player, 9, name, find(args[2], house.getOwnerRequest()));
+			
+			house.removeOwnerRequest(plugin.getServer().getPlayerExact(args[2]));
+			return new ManageHouseOwners(plugin, player, 0, name);
+		}
+		
+		// Remove Owner
+		if (args[0].equalsIgnoreCase("remove") && args.length == 3) {
+			if (find(args[2], house.getOwners()).size() == 1) args[2] = find(args[2]).get(0);
+			else if (find(args[2], house.getOwners()).size() == 0) return new ManageHouseOwners(plugin, player, 3, name);
+			else return new ManageHouseOwners(plugin, player, 9, name, find(args[2], house.getOwners()));
+			
+			house.removeOwner(plugin.getServer().getPlayerExact(args[2]));
+			plugin.playerdata.get(args[2]).removeHousesOwned(house);
+			plugin.getServer().getPlayerExact(args[2]).abandonConversation(plugin.playerdata.get(args[2]).getConversation());
+			
+			return new ManageHouseOwners(plugin, player, 0, name);
+		}
+		
+		// Undo Offer
+		if (args[0].equalsIgnoreCase("undo") && args.length == 3) {
+			if (find(args[2], house.getOwnerOffers()).size() == 1) args[2] = find(args[2]).get(0);
+			else if (find(args[2], house.getOwnerOffers()).size() == 0) return new ManageHouseOwners(plugin, player, 4, name);
+			else return new ManageHouseOwners(plugin, player, 9, name, find(args[2], house.getOwnerOffers()));
+			
+			house.removeOwnerOffer(plugin.getServer().getPlayerExact(args[2]));
+			return new ManageHouseOwners(plugin, player, 0, name);
+		}
+		
+		// Offer Owner
+		if (args[0].equalsIgnoreCase("Offer") && args.length == 2) {
+			if (find(args[2], PDI.getCountryResides().getResidents()).size() == 1) args[2] = find(args[2]).get(0);
+			else if (find(args[2], PDI.getCountryResides().getResidents()).size() == 0) return new ManageHouseOwners(plugin, player, 6, name);
+			else return new ManageHouseOwners(plugin, player, 9, name, find(args[2], PDI.getCountryResides().getResidents()));
+			
+			house.addOwnerOffer(plugin.getServer().getPlayerExact(args[2]));
+			return new ManageHouseOwners(plugin, player, 0, name);
+		}
 		return new ManageHouseOwners(plugin, player, 1, name);
 	}
 
