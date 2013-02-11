@@ -93,11 +93,13 @@ public class TownProtectionLevel extends StringPrompt {
 				ChatColor.GRAY + " Applied after next tax cycle. " + repeat(" ", (int) (15 - Math.round((cut(townMethods.getTaxAmount(town.getFutureProtectionLevel())).toString().length() * 1.4)))));
 		options = options.concat(ChatColor.DARK_AQUA + repeat("-", 53) + ChatColor.GREEN);
 		options = options.concat(ChatColor.YELLOW + "Protection level is how much protection you get from military funding. Changes become effective after next taxation cycle." + repeat(" ", 3));
-		options = options.concat(ChatColor.GOLD + "Level 0: " + ChatColor.YELLOW + "No protection, anybody can build in your town and government regions. Town Land can be" +
+		options = options.concat(ChatColor.GOLD + "Level 0: " + ChatColor.YELLOW + "(No protection) Anybody can build in your town and government regions. Town Land can be" +
 				" claimed by other towns." + repeat(" ", 1));
-		options = options.concat(ChatColor.GOLD + "Level 1: " + ChatColor.YELLOW + "Any Country resident can build in your town except banished people. Town land CANNOT be" +
-				" claimed by other towns. Government regions are protected from everybody." + repeat(" ", 11));
-		options = options.concat(ChatColor.GOLD + "Level 2: " + ChatColor.YELLOW + "Only town residents can build in your town." + repeat(" ", 5));
+		options = options.concat(ChatColor.GOLD + "Level 1: " + ChatColor.YELLOW + "(Claim Protection) Town land cannot be claimed by other towns." +
+				" Government regions are protected from everybody." + repeat(" ", 11));
+		options = options.concat(ChatColor.GOLD + "Level 2: " + ChatColor.YELLOW + "(Immigration Control) Players need permission to join your town." + repeat(" ", 5));
+		options = options.concat(ChatColor.GOLD + "Level 3: " + ChatColor.YELLOW + "(Block and Interactable Protection) Only town residents can build and interact in your town." + repeat(" ", 5));
+		options = options.concat(ChatColor.GOLD + "Level 4: " + ChatColor.YELLOW + "(Player Protection) Players are protected from damage take from non-town residents while within the town boundary." + repeat(" ", 5));
 		options = options.concat(ChatColor.DARK_AQUA + repeat("-", 53) + ChatColor.GREEN);
 		
 		options = options.concat("Set <level number>" + repeat(" ", 55));
