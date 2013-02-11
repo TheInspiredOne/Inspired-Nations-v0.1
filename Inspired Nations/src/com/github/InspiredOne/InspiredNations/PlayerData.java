@@ -1,6 +1,8 @@
 package com.github.InspiredOne.InspiredNations;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.Vector;
 
 import org.bukkit.conversations.Conversation;
@@ -83,7 +85,8 @@ public class PlayerData {
 	
 	// Economy Variables
 	private BigDecimal money = new BigDecimal(500);
-	private BigDecimal moneyInBank = new BigDecimal(300);
+	private BigDecimal moneyInBankHigh = new BigDecimal(300);
+	private BigDecimal moneyInBankLow = new BigDecimal(300);
 	private BigDecimal moneyMultiplyer = new BigDecimal(1);
 	private String pluralMoneyName = "coins";
 	private String singularMoneyName = "coin";
@@ -92,8 +95,11 @@ public class PlayerData {
 	private double serviceBusinessTax = 0;
 	private BigDecimal loanAmount = new BigDecimal(0);
 	private BigDecimal maxLoan = new BigDecimal(5000);
+	private MathContext mc = new MathContext(100, RoundingMode.UP);
+	private MathContext mc2 = new MathContext(100, RoundingMode.DOWN);
 	
 	private Conversation convo = null;
+	
 
 	// Location Setters
 	public PlayerData(InspiredNations instance) {
@@ -334,11 +340,11 @@ public class PlayerData {
 	// Economy Setters
 	public void setMoney(double onHandtemp) {
 		BigDecimal onHand = new BigDecimal(onHandtemp);
-		money = onHand.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN);
+		money = onHand.divide(moneyMultiplyer, mc);
 	}
 	
 	public void setMoney(BigDecimal onHand) {
-		money = onHand.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN);
+		money = onHand.divide(moneyMultiplyer, mc);
 	}
 	
 	public void setRawMoney(BigDecimal onHand) {
@@ -347,64 +353,98 @@ public class PlayerData {
 	
 	public void removeMoney(double taketemp) {
 		BigDecimal take = new BigDecimal(taketemp);
-		money = money.subtract(take.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN));
+		money = money.subtract(take.divide(moneyMultiplyer, mc2));
 	}
 	
 	public void removeMoney(BigDecimal take) {
-		money = money.subtract(take.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN));
+		money = money.subtract(take.divide(moneyMultiplyer, mc2));
 	}
 	
 	public void addMoney(double givetemp) {
 		BigDecimal give = new BigDecimal(givetemp);
-		money = money.add(give.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN));
+		money = money.add(give.divide(moneyMultiplyer, mc));
 	}
 	
 	public void addMoney(BigDecimal give) {
-		money = money.add(give.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN));
+		money = money.add(give.divide(moneyMultiplyer, mc));
 	}
 	
 	public void transferMoney(double amounttemp, String targetname) {
 		BigDecimal amount = new BigDecimal(amounttemp);
-		money = money.subtract((amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN)));
+		money = money.subtract((amount.divide(moneyMultiplyer, mc2)));
 		PlayerData targetPDI = plugin.playerdata.get(targetname.toLowerCase());
-		targetPDI.addMoney(amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN).multiply(targetPDI.getMoneyMultiplyer()));
+		targetPDI.addMoney(amount.divide(moneyMultiplyer, mc).multiply(targetPDI.getMoneyMultiplyer()));
 	}
 	
 	public void transferMoney(BigDecimal amount, String targetname) {
-		money = money.subtract((amount.divide(moneyMultiplyer)));
+		money = money.subtract((amount.divide(moneyMultiplyer, mc2)));
 		PlayerData targetPDI = plugin.playerdata.get(targetname.toLowerCase());
-		targetPDI.addMoney(amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN).multiply(targetPDI.getMoneyMultiplyer()));
+		targetPDI.addMoney(amount.divide(moneyMultiplyer, mc).multiply(targetPDI.getMoneyMultiplyer()));
 	}
 	
 	public void setMoneyInBank(double amounttemp) {
 		BigDecimal amount = new BigDecimal(amounttemp);
-		moneyInBank = amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN);
+		moneyInBankHigh = amount.divide(moneyMultiplyer, mc);
+		moneyInBankLow = amount.divide(moneyMultiplyer, mc2);
 	}
 	
 	public void setMoneyInBank(BigDecimal amount) {
-		moneyInBank = amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN);
+		moneyInBankHigh = amount.divide(moneyMultiplyer, mc);
+		moneyInBankLow = amount.divide(moneyMultiplyer, mc2);
 	}
 	
-	public void setRawMoneyInBank(BigDecimal amount) {
-		moneyInBank = amount;
+	public void setRawMoneyInBankHigh(BigDecimal amount) {
+		moneyInBankHigh = amount;
+	}
+	
+	public void setRawMoneyInBankLow(BigDecimal amount)	{
+		moneyInBankLow = amount;
 	}
 	
 	public void addMoneyInBank(double amounttemp) {
 		BigDecimal amount = new BigDecimal(amounttemp);
-		moneyInBank = moneyInBank.add((amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN)));
+		if (amount.compareTo(BigDecimal.ZERO) > 0) {
+			moneyInBankHigh = moneyInBankHigh.add((amount.divide(moneyMultiplyer, mc)));
+			moneyInBankLow = moneyInBankLow.add((amount.divide(moneyMultiplyer, mc2)));
+		}
+		else {
+			moneyInBankHigh = moneyInBankHigh.add((amount.divide(moneyMultiplyer, mc2)));
+			moneyInBankLow = moneyInBankLow.add((amount.divide(moneyMultiplyer, mc)));
+		}
 	}
 	
 	public void addMoneyInBank(BigDecimal amount) {
-		moneyInBank = moneyInBank.add((amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN)));
+		if (amount.compareTo(BigDecimal.ZERO) > 0) {
+			moneyInBankHigh = moneyInBankHigh.add((amount.divide(moneyMultiplyer, mc)));
+			moneyInBankLow = moneyInBankLow.add((amount.divide(moneyMultiplyer, mc2)));
+		}
+		else {
+			moneyInBankHigh = moneyInBankHigh.add((amount.divide(moneyMultiplyer, mc2)));
+			moneyInBankLow = moneyInBankLow.add((amount.divide(moneyMultiplyer, mc)));
+		}
 	}
 	
 	public void transferMoneyToBank(double amounttemp) {
 		BigDecimal amount = new BigDecimal(amounttemp);
-		moneyInBank = moneyInBank.add((amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN)));
+		if (amount.compareTo(BigDecimal.ZERO) > 0) {
+			moneyInBankHigh = moneyInBankHigh.add((amount.divide(moneyMultiplyer, mc)));
+			moneyInBankLow = moneyInBankLow.add((amount.divide(moneyMultiplyer, mc2)));
+		}
+		else {
+			moneyInBankHigh = moneyInBankHigh.add((amount.divide(moneyMultiplyer, mc2)));
+			moneyInBankLow = moneyInBankLow.add((amount.divide(moneyMultiplyer, mc)));
+		}
 	}
 	
 	public void transferMoneyToBank(BigDecimal amount) {
-		moneyInBank = moneyInBank.add((amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN)));
+		if (amount.compareTo(BigDecimal.ZERO) > 0) {
+			moneyInBankHigh = moneyInBankHigh.add((amount.divide(moneyMultiplyer, mc)));
+			moneyInBankLow = moneyInBankLow.add((amount.divide(moneyMultiplyer, mc2)));
+		}
+		else {
+			moneyInBankHigh = moneyInBankHigh.add((amount.divide(moneyMultiplyer, mc2)));
+			moneyInBankLow = moneyInBankLow.add((amount.divide(moneyMultiplyer, mc)));
+		}
 	}
 	
 	public void setMoneyMultiplyer(double multiplyer) {
@@ -438,11 +478,11 @@ public class PlayerData {
 	
 	public void setLoanAmount(double amount) {
 		BigDecimal amounttemp = new BigDecimal(amount);
-		loanAmount = amounttemp.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN);
+		loanAmount = amounttemp.divide(moneyMultiplyer, mc);
 	}
 	
 	public void setLoanAmount(BigDecimal amount) {
-		loanAmount = amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN);
+		loanAmount = amount.divide(moneyMultiplyer, mc);
 	}
 	
 	public void setRawLoanAmount(BigDecimal amount){
@@ -451,20 +491,20 @@ public class PlayerData {
 	
 	public void addLoan(double amounttemp) {
 		BigDecimal amount = new BigDecimal(amounttemp);
-		loanAmount = loanAmount.add((amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN)));
+		loanAmount = loanAmount.add((amount.divide(moneyMultiplyer, mc)));
 	}
 	
 	public void addLoan(BigDecimal amount) {
-		loanAmount = loanAmount.add((amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN)));
+		loanAmount = loanAmount.add((amount.divide(moneyMultiplyer, mc)));
 	}
 	
 	public void removeLoan(double amounttemp) {
 		BigDecimal amount = new BigDecimal(amounttemp);
-		loanAmount = loanAmount.subtract((amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN)));
+		loanAmount = loanAmount.subtract((amount.divide(moneyMultiplyer, mc)));
 	}
 	
 	public void removeLoan(BigDecimal amount) {
-		loanAmount = loanAmount.subtract((amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN)));
+		loanAmount = loanAmount.subtract((amount.divide(moneyMultiplyer, mc)));
 	}
 	
 	public void setMaxLoan(double amounttemp) {
@@ -473,7 +513,7 @@ public class PlayerData {
 	}
 	
 	public void setMaxLoan(BigDecimal amount) {
-		maxLoan = amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN);
+		maxLoan = amount.divide(moneyMultiplyer, mc);
 	}
 	
 	public void setRawMaxLoan(BigDecimal amount) {
@@ -704,15 +744,20 @@ public class PlayerData {
 	}
 	
 	public BigDecimal getMoneyInBank() {
-		return cut(moneyInBank.multiply(moneyMultiplyer));
+		return cut(moneyInBankHigh.multiply(moneyMultiplyer));
 	}
 	
-	public BigDecimal getRawMoneyInBank() {
-		return moneyInBank;
+	public BigDecimal getRawMoneyInBankHigh() {
+		return moneyInBankHigh;
 	}
+	public BigDecimal getRawMoneyInBankLow() {
+		return moneyInBankLow;
+	}
+	
 	
 	public BigDecimal getMoneyOnHand() {
-		return cut((money.subtract(moneyInBank)).multiply(moneyMultiplyer));
+		return cut((money.subtract(moneyInBankLow)).multiply(moneyMultiplyer));
+		// Whenever subtracting the money in bank from something, always use  moneyInBankLow
 	}
 	
 	public BigDecimal getMoneyMultiplyer() {

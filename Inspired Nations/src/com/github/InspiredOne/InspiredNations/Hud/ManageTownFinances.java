@@ -156,12 +156,7 @@ public class ManageTownFinances extends StringPrompt{
 		int maxLoanLength = (int) ((town.getMaxLoan().toString().length()) * 1.4);
 		
 		BigDecimal taxRevenue = new BigDecimal(0.00);
-		for (Iterator<String> i = town.getResidents().iterator(); i.hasNext(); ) {
-			String targetname = i.next();
-			PlayerMethods PMITarget = new PlayerMethods(plugin, plugin.getServer().getPlayer(targetname));
-			taxRevenue = taxRevenue.add(new BigDecimal(PMITarget.taxAmount(town.getName().toLowerCase())));
-		}
-		taxRevenue = cut(taxRevenue);
+		taxRevenue = cut(town.getRevenue());
 		
 		int revenueLength = (int) (taxRevenue.toString().length() * 1.4);
 		BigDecimal expenditures = cut(TMI.getTaxAmount());

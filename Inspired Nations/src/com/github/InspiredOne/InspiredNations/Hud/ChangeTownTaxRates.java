@@ -76,10 +76,10 @@ public class ChangeTownTaxRates extends StringPrompt {
 		for (Iterator<String> i = town.getResidents().iterator(); i.hasNext(); ) {
 			String targetname = i.next();
 			PlayerMethods PMITarget = new PlayerMethods(plugin, plugin.getServer().getPlayer(targetname));
-			taxRevenue = taxRevenue.add(new BigDecimal(PMITarget.taxAmount(town.getName().toLowerCase())));
-			houseRevenue = houseRevenue.add(new BigDecimal(PMITarget.houseTax(town.getName().toLowerCase())));
-			goodBusinessRevenue = goodBusinessRevenue.add(new BigDecimal(PMITarget.goodBusinessTax(town.getName().toLowerCase())));
-			serviceBusinessRevenue = serviceBusinessRevenue.add(new BigDecimal(PMITarget.serviceBusinessTax(town.getName().toLowerCase())));
+			taxRevenue = taxRevenue.add(PMITarget.taxAmount(town.getName().toLowerCase()));
+			houseRevenue = houseRevenue.add(PMITarget.houseTax(town.getName().toLowerCase()));
+			goodBusinessRevenue = goodBusinessRevenue.add(PMITarget.goodBusinessTax(town.getName().toLowerCase()));
+			serviceBusinessRevenue = serviceBusinessRevenue.add(PMITarget.serviceBusinessTax(town.getName().toLowerCase()));
 		}
 		taxRevenue = cut(taxRevenue);
 		houseRevenue = cut(houseRevenue);

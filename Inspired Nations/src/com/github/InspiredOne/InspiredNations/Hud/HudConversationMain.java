@@ -1,6 +1,7 @@
 package com.github.InspiredOne.InspiredNations.Hud;
 
 import java.util.HashMap;
+import java.util.Vector;
 
 import org.bukkit.ChatColor;
 import org.bukkit.conversations.ConversationContext;
@@ -22,7 +23,7 @@ public class HudConversationMain extends StringPrompt{
 	PlayerData PDI;
 	PlayerModes PM;
 	
-	HashMap<String, Integer> inputs = new HashMap<String, Integer>();
+	Vector<String> inputs = new Vector<String>();
 	int error;
 	
 	// Constructor
@@ -44,6 +45,22 @@ public class HudConversationMain extends StringPrompt{
 		return temp;
 	}
 	
+	// A generalized find function where you give it the vector you want it to search in.
+	public Vector<String> find(String name, Vector<String> test) {
+		Vector<String> list = new Vector<String>();
+		for (String nametest:test) {
+			if (nametest.toLowerCase().contains(name.toLowerCase()) && !nametest.equalsIgnoreCase(player.getName())) {
+				list.add(nametest);
+			}
+			if (nametest.equalsIgnoreCase(name)) {
+				list.clear();
+				list.add(nametest);
+				return list;
+			}
+		}
+		return list;
+	}
+	
 	@Override
 	public String getPromptText(ConversationContext arg0) {
 		String options = "";
@@ -53,43 +70,43 @@ public class HudConversationMain extends StringPrompt{
 		String end = ChatColor.DARK_AQUA + repeat("-", 53) + ChatColor.AQUA + "Type 'exit' to leave." + repeat(" ", 55);
 		String errormsg = "";
 		options = options.concat("Manage Citizenship" + repeat(" ", 58));
-		inputs.put("manage citizenship", 1);
+		inputs.add("manage citizenship");
 		if (PDI.getIsCountryRuler()) {
 			options = options.concat("Manage Country" + repeat(" ", 60));
-			inputs.put("manage country", 1);
+			inputs.add("manage country");
 		}
 		if (PDI.getIsTownMayor()) {
 			options = options.concat("Manage Town" + repeat(" ", 60));
-			inputs.put("manage town", 1);
+			inputs.add("manage town");
 		}
 		if (PDI.getIsGoodBusinessOwner() || PDI.getIsServiceBusinessOwner()) {
 			options = options.concat("Manage Business" + repeat(" ", 60));
-			inputs.put("manage business", 1);
+			inputs.add("manage business");
 		}
 		if (PDI.getIsHouseOwner()) {
 			options = options.concat("Manage House" + repeat(" ", 60));
-			inputs.put("manage house", 1);
+			inputs.add("manage house");
 		}
 		options = options.concat("Manage Money" + repeat(" ", 60));
-		inputs.put("manage money", 1);
+		inputs.add("manage money");
 		
 		options = options.concat("New Country" + repeat(" ", 64));
-		inputs.put("new country", 1);
+		inputs.add("new country");
 		if (PDI.getIsCountryResident()) {
 			options = options.concat("New Town" + repeat(" ", 68));
-			inputs.put("new town", 1);
+			inputs.add("new town");
 		}
 		if (PDI.getIsTownResident()) {
 			options = options.concat("New Business" + repeat(" ", 61));
-			inputs.put("new business", 1);
+			inputs.add("new business");
 		}
 		if (PDI.getIsTownResident()) {
 			options = options.concat("New House" + repeat(" ", 65));
-			inputs.put("new house", 1);
+			inputs.add("new house");
 		}
 		if (PDI.getIsCountryResident()) {
 			options = options.concat("Jobs " + repeat(" ", 60));
-			inputs.put("jobs", 1);
+			inputs.add("jobs");
 		}
 		if (error == 1) {
 			errormsg = errormsg.concat(ChatColor.RED + "That is not an option. Check your spelling?");
@@ -103,7 +120,12 @@ public class HudConversationMain extends StringPrompt{
 		if (arg.startsWith("/")) {
 			arg = arg.substring(1);
 		}
-		if (!inputs.containsKey(arg.toLowerCase())) {
+		
+		if(find(arg, inputs).size() == 0) return new HudConversationMain(plugin,player,1);
+		else if(find(arg,inputs).size() > 1) return new HudConversationMain(plugin,player,1);
+		else arg = find(arg,inputs).get(0);
+		
+		if (!inputs.contains(arg.toLowerCase())) {
 			return new HudConversationMain(plugin, player, 1);
 		}
 		else {

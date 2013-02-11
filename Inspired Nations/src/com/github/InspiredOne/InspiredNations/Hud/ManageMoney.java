@@ -63,7 +63,7 @@ public class ManageMoney extends StringPrompt{
 	
 	// A method to cut off decimals greater than the hundredth place;
 	public BigDecimal cut(BigDecimal x) {
-		return x.divide(new BigDecimal(1), 2, BigDecimal.ROUND_DOWN);
+		return x.divide(new BigDecimal(1), 2, BigDecimal.ROUND_HALF_DOWN);
 	}
 	
 	// A method to find a person given an incomplete string;
@@ -108,10 +108,10 @@ public class ManageMoney extends StringPrompt{
 		int moneylength = (int) (cut(PDI.getMoney()).toString().length()* 1.4);
 		int onhandlength = (int) (cut(PDI.getMoneyOnHand()).toString().length()* 1.4);
 		int inbanklength = (int) (cut(PDI.getMoneyInBank()).toString().length()* 1.4);
-		int housetaxlength = (int) ((cut(new BigDecimal(PMI.houseTax()))).toString().length() * 1.4);
-		int goodtaxlength = (int) ((cut(new BigDecimal(PMI.goodBusinessTax()))).toString().length() * 1.4);
-		int servicetaxlength = (int) ((cut(new BigDecimal(PMI.serviceBusinessTax()))).toString().length() * 1.4);
-		int totaltaxlength = (int) ((cut(new BigDecimal(PMI.taxAmount()))).toString().length() * 1.4);
+		int housetaxlength = (int) ((cut(PMI.houseTax())).toString().length() * 1.4);
+		int goodtaxlength = (int) ((cut(PMI.goodBusinessTax())).toString().length() * 1.4);
+		int servicetaxlength = (int) ((cut(PMI.serviceBusinessTax())).toString().length() * 1.4);
+		int totaltaxlength = (int) ((cut(PMI.taxAmount())).toString().length() * 1.4);
 		int loanlength = (int) (cut(PDI.getLoanAmount()).toString().length() * 1.4);
 		int maxLoanLength = (int) ((cut(PDI.getMaxLoan()).toString().length()) * 1.4);
 		String options = "";
@@ -152,22 +152,22 @@ public class ManageMoney extends StringPrompt{
 		
 		// Building options
 		options = options.concat(ChatColor.BOLD + "You have:" + ChatColor.RESET +  repeat(" ", 65)) + ChatColor.YELLOW;
-		options = options.concat(ChatColor.GOLD + "" + cut(PDI.getMoney()).toString() + ChatColor.YELLOW + " " + PDI.getPluralMoney() + " in total." + repeat(" ", 70 - moneylength - (int)(PDI.getPluralMoney().length()*1.4)));
+		options = options.concat(ChatColor.GOLD + "" + cut(PDI.getMoney()).toString() + ChatColor.YELLOW + " " + PDI.getPluralMoney() + " in total." + repeat(" ", 69 - moneylength - (int)(PDI.getPluralMoney().length()*1.4)));
 		options = options.concat(ChatColor.GOLD + "" + cut(PDI.getMoneyOnHand()).toString() + ChatColor.YELLOW + " " + PDI.getPluralMoney() + " on hand." + repeat(" ", 67 - onhandlength - (int)(PDI.getPluralMoney().length()*1.4)));
 		options = options.concat(ChatColor.GOLD + "" + cut(PDI.getMoneyInBank()).toString() + ChatColor.YELLOW + " " + PDI.getPluralMoney() + " in the bank." + repeat(" ", 63 - inbanklength - (int)(PDI.getPluralMoney().length()*1.4)));
 		if (PDI.getIsHouseOwner() || PDI.getIsGoodBusinessOwner() || PDI.getIsServiceBusinessOwner()) {
 			options = options.concat(ChatColor.RED + "");
 			options = options.concat(ChatColor.BOLD + "Yearly Taxes:" + ChatColor.RESET + repeat(" ", 59) + ChatColor.RED);
-			options = options.concat("Total: " + ChatColor.GOLD + cut(new BigDecimal(PMI.taxAmount())).toString() + ChatColor.RED + " " + PDI.getPluralMoney() + " per year." + repeat(" ", 50 - totaltaxlength - (int)(PDI.getPluralMoney().length()*1.4)));
+			options = options.concat("Total: " + ChatColor.GOLD + cut(PMI.taxAmount()).toString() + ChatColor.RED + " " + PDI.getPluralMoney() + " per year." + repeat(" ", 50 - totaltaxlength - (int)(PDI.getPluralMoney().length()*1.4)));
 		}
 		if (PDI.getIsHouseOwner()) {
-			options = options.concat("Residential: " + ChatColor.GOLD + cut(new BigDecimal(PMI.houseTax())) + ChatColor.RED + " " + PDI.getPluralMoney() + " per year." + repeat(" ", 45 - housetaxlength - (int)(PDI.getPluralMoney().length()*1.4)));
+			options = options.concat("Residential: " + ChatColor.GOLD + cut(PMI.houseTax()) + ChatColor.RED + " " + PDI.getPluralMoney() + " per year." + repeat(" ", 45 - housetaxlength - (int)(PDI.getPluralMoney().length()*1.4)));
 		}
 		if (PDI.getIsGoodBusinessOwner()) {
-			options = options.concat("Commercial Goods: " + ChatColor.GOLD + cut(new BigDecimal(PMI.goodBusinessTax())) + ChatColor.RED + " " + PDI.getPluralMoney() + " per year." + repeat(" ", 40 - goodtaxlength - (int)(PDI.getPluralMoney().length()*1.4)));
+			options = options.concat("Commercial Goods: " + ChatColor.GOLD + cut(PMI.goodBusinessTax()) + ChatColor.RED + " " + PDI.getPluralMoney() + " per year." + repeat(" ", 40 - goodtaxlength - (int)(PDI.getPluralMoney().length()*1.4)));
 		}
 		if (PDI.getIsServiceBusinessOwner()) {
-			options = options.concat("Commercial Services: "  + ChatColor.GOLD + cut(new BigDecimal(PMI.serviceBusinessTax())) + ChatColor.RED + " " + PDI.getPluralMoney() + " per year." + repeat(" ", 36 - servicetaxlength - (int)(PDI.getPluralMoney().length()*1.4)));
+			options = options.concat("Commercial Services: "  + ChatColor.GOLD + cut(PMI.serviceBusinessTax()) + ChatColor.RED + " " + PDI.getPluralMoney() + " per year." + repeat(" ", 36 - servicetaxlength - (int)(PDI.getPluralMoney().length()*1.4)));
 		}
 		if (PDI.getLoanAmount().compareTo(new BigDecimal(0.0)) != 0) {
 			options = options.concat(ChatColor.LIGHT_PURPLE + "");

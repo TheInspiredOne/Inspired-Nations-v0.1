@@ -332,7 +332,8 @@ public class SaveFiles {
 				PDC.addDefault(key + ".countryResides", null);
 			}
 			PDC.addDefault(key + ".money.amount", PDI.getRawMoney().toString());
-			PDC.addDefault(key + ".money.inBank", PDI.getRawMoneyInBank().toString());
+			PDC.addDefault(key + ".money.inBankHigh", PDI.getRawMoneyInBankHigh().toString());
+			PDC.addDefault(key + ".money.inBankLow", PDI.getRawMoneyInBankLow().toString());
 			PDC.addDefault(key + ".money.multiplyer", PDI.getMoneyMultiplyer().toString());
 			PDC.addDefault(key + ".money.plural", PDI.getPluralMoney());
 			PDC.addDefault(key + ".money.singular", PDI.getSingularMoney());
@@ -454,7 +455,8 @@ public class SaveFiles {
 				PDC.set(key + ".countryResides", null);
 			}
 			PDC.set(key + ".money.amount", PDI.getRawMoney().toString());
-			PDC.set(key + ".money.inBank", PDI.getRawMoneyInBank().toString());
+			PDC.set(key + ".money.inBankHigh", PDI.getRawMoneyInBankHigh().toString());
+			PDC.set(key + ".money.inBankLow", PDI.getRawMoneyInBankLow().toString());
 			PDC.set(key + ".money.multiplyer", PDI.getMoneyMultiplyer().toString());
 			PDC.set(key + ".money.plural", PDI.getPluralMoney());
 			PDC.set(key + ".money.singular", PDI.getSingularMoney());
@@ -565,7 +567,8 @@ public class SaveFiles {
 			PDI.setCountryResides(plugin.countrydata.get(PDC.getString(key + ".countryResides")));
 			PDI.setMoneyMultiplyer(new BigDecimal(PDC.getString(key + ".money.multiplyer")));
 			PDI.setRawMoney(new BigDecimal(PDC.getString(key + ".money.amount")));
-			PDI.setRawMoneyInBank(new BigDecimal(PDC.getString(key + ".money.inBank")));
+			PDI.setRawMoneyInBankHigh(new BigDecimal(PDC.getString(key + ".money.inBankHigh")));
+			PDI.setRawMoneyInBankLow(new BigDecimal(PDC.getString(key + ".money.inBankLow")));
 			PDI.setPluralMoney(PDC.getString(key + ".money.plural"));
 			PDI.setSingularMoney(PDC.getString(key + ".money.singular"));
 			PDI.setHouseTax(PDC.getDouble(key + ".money.housetax"));

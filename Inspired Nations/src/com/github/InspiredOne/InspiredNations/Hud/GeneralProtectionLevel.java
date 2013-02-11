@@ -150,9 +150,9 @@ public class GeneralProtectionLevel extends StringPrompt {
 		else if(from.equals("house")) {
 			options = options.concat(ChatColor.YELLOW + "Current Protection Level: " + ChatColor.GOLD + house.getProtectionLevel() + ChatColor.YELLOW + repeat(" ", 44));
 			options = options.concat(ChatColor.YELLOW + "New Protection Level: " + ChatColor.GOLD + house.getFutureProtectionLevel() + ChatColor.GRAY + " Applied after next tax cycle." + repeat(" ", 10));
-			options = options.concat(ChatColor.YELLOW + "Current Protection Cost: " + ChatColor.GOLD + cut(new BigDecimal(PMeth.houseTax(house))).toString() + repeat(" ", (int) (47 - Math.round((cut(new BigDecimal(PMeth.houseTax(house))).toString().length() * 1.4)))));
-			options = options.concat(ChatColor.YELLOW + "New Protection Cost: " + ChatColor.GOLD + cut(new BigDecimal(PMeth.houseTax(house, house.getFutureProtectionLevel()))).toString() + 
-					ChatColor.GRAY + " Applied after next tax cycle. " + repeat(" ", (int) (15 - Math.round((cut(new BigDecimal(PMeth.houseTax(house, house.getFutureProtectionLevel())))).toString().length() * 1.4))));
+			options = options.concat(ChatColor.YELLOW + "Current Protection Cost: " + ChatColor.GOLD + cut(PMeth.houseTax(house)).toString() + repeat(" ", (int) (47 - Math.round((cut(PMeth.houseTax(house)).toString().length() * 1.4)))));
+			options = options.concat(ChatColor.YELLOW + "New Protection Cost: " + ChatColor.GOLD + cut(PMeth.houseTax(house, house.getFutureProtectionLevel()))).toString() + 
+					ChatColor.GRAY + " Applied after next tax cycle. " + repeat(" ", (int) (15 - Math.round((cut(PMeth.houseTax(house, house.getFutureProtectionLevel())).toString().length() * 1.4))));
 			options = options.concat(ChatColor.DARK_AQUA + repeat("-", 53) + ChatColor.GREEN);
 			options = options.concat(ChatColor.YELLOW + "Protection level is how much protection you get from military funding. Changes become effective after next taxation cycle." + repeat(" ", 3));
 			options = options.concat(ChatColor.GOLD + "Level 0: " + ChatColor.YELLOW + "No protection, anybody that can build in your town can build in your house." + repeat(" ", 53));
@@ -163,9 +163,9 @@ public class GeneralProtectionLevel extends StringPrompt {
 		else if(from.equals("goodbusiness")) {
 			options = options.concat(ChatColor.YELLOW + "Current Protection Level: " + ChatColor.GOLD + good.getProtectionLevel() + ChatColor.YELLOW + repeat(" ", 44));
 			options = options.concat(ChatColor.YELLOW + "New Protection Level: " + ChatColor.GOLD + good.getFutureProtectionLevel() + ChatColor.GRAY + " Applied after next tax cycle." + repeat(" ", 10));
-			options = options.concat(ChatColor.YELLOW + "Current Protection Cost: " + ChatColor.GOLD + cut(new BigDecimal(PMeth.goodBusinessTax(good))).toString() + repeat(" ", (int) (47 - Math.round((cut(new BigDecimal(PMeth.goodBusinessTax(good))).toString().length() * 1.4)))));
-			options = options.concat(ChatColor.YELLOW + "New Protection Cost: " + ChatColor.GOLD + cut(new BigDecimal(PMeth.goodBusinessTax(good, good.getFutureProtectionLevel()))).toString() + 
-					ChatColor.GRAY + " Applied after next tax cycle. " + repeat(" ", (int) (15 - Math.round((cut(new BigDecimal(PMeth.goodBusinessTax(good, good.getFutureProtectionLevel())))).toString().length() * 1.4))));
+			options = options.concat(ChatColor.YELLOW + "Current Protection Cost: " + ChatColor.GOLD + cut(PMeth.goodBusinessTax(good)).toString() + repeat(" ", (int) (47 - Math.round((cut(PMeth.goodBusinessTax(good)).toString().length() * 1.4)))));
+			options = options.concat(ChatColor.YELLOW + "New Protection Cost: " + ChatColor.GOLD + cut(PMeth.goodBusinessTax(good, good.getFutureProtectionLevel())).toString() + 
+					ChatColor.GRAY + " Applied after next tax cycle. " + repeat(" ", (int) (15 - Math.round((cut(PMeth.goodBusinessTax(good, good.getFutureProtectionLevel()))).toString().length() * 1.4))));
 			options = options.concat(ChatColor.DARK_AQUA + repeat("-", 53) + ChatColor.GREEN);
 			options = options.concat(ChatColor.YELLOW + "Protection level is how much protection you get from military funding. Changes become effective after next taxation cycle." + repeat(" ", 3));
 			options = options.concat(ChatColor.GOLD + "Level 0: " + ChatColor.YELLOW + "No protection, anybody that can build in your town can build in your business." + repeat(" ", 53));
@@ -176,9 +176,9 @@ public class GeneralProtectionLevel extends StringPrompt {
 		else if(from.equals("servicebusiness")) {
 			options = options.concat(ChatColor.YELLOW + "Current Protection Level: " + ChatColor.GOLD + service.getProtectionLevel() + ChatColor.YELLOW + repeat(" ", 44));
 			options = options.concat(ChatColor.YELLOW + "New Protection Level: " + ChatColor.GOLD + service.getFutureProtectionLevel() + ChatColor.GRAY + " Applied after next tax cycle." + repeat(" ", 10));
-			options = options.concat(ChatColor.YELLOW + "Current Protection Cost: " + ChatColor.GOLD + cut(new BigDecimal(PMeth.serviceBusinessTax(service))).toString() + repeat(" ", (int) (47 - Math.round((cut(new BigDecimal(PMeth.serviceBusinessTax(service))).toString().length() * 1.4)))));
-			options = options.concat(ChatColor.YELLOW + "New Protection Cost: " + ChatColor.GOLD + cut(new BigDecimal(PMeth.serviceBusinessTax(service, service.getFutureProtectionLevel()))).toString() + 
-					ChatColor.GRAY + " Applied after next tax cycle. " + repeat(" ", (int) (15 - Math.round((cut(new BigDecimal(PMeth.serviceBusinessTax(service, service.getFutureProtectionLevel())))).toString().length() * 1.4))));
+			options = options.concat(ChatColor.YELLOW + "Current Protection Cost: " + ChatColor.GOLD + cut(PMeth.serviceBusinessTax(service)).toString() + repeat(" ", (int) (47 - Math.round((cut(PMeth.serviceBusinessTax(service))).toString().length() * 1.4))));
+			options = options.concat(ChatColor.YELLOW + "New Protection Cost: " + ChatColor.GOLD + cut(PMeth.serviceBusinessTax(service, service.getFutureProtectionLevel())).toString() + 
+					ChatColor.GRAY + " Applied after next tax cycle. " + repeat(" ", (int) (15 - Math.round(cut(PMeth.serviceBusinessTax(service, service.getFutureProtectionLevel())).toString().length() * 1.4))));
 			options = options.concat(ChatColor.DARK_AQUA + repeat("-", 53) + ChatColor.GREEN);
 			options = options.concat(ChatColor.YELLOW + "Protection level is how much protection you get from military funding. Changes become effective after next taxation cycle." + repeat(" ", 3));
 			options = options.concat(ChatColor.GOLD + "Level 0: " + ChatColor.YELLOW + "No protection, anybody that can build in your town can build in your business." + repeat(" ", 53));

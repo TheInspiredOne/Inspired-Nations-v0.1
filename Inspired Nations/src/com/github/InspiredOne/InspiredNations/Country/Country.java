@@ -1,6 +1,8 @@
 package com.github.InspiredOne.InspiredNations.Country;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -36,6 +38,8 @@ public class Country {
 	private BigDecimal maxLoan;
 	private int protectionLevel = 1;
 	private int futureprotectionlevel = 1;
+	private MathContext mc = new MathContext(100, RoundingMode.UP);
+	private MathContext mc2 = new MathContext(100, RoundingMode.DOWN);
 	
 	public Country(InspiredNations instance, Chunks areatemp, String nametemp, String rulertemp) {
 		plugin = instance;
@@ -157,7 +161,7 @@ public class Country {
 	}
 	
 	public void setMoneyMultiplyer(double multiplyertemp) {
-		BigDecimal multiplyer = new BigDecimal(multiplyertemp);
+		BigDecimal multiplyer = new BigDecimal(multiplyertemp, mc);
 		moneyMultiplyer = multiplyer;
 	}
 	
@@ -167,11 +171,11 @@ public class Country {
 	
 	public void setMoney(double amounttemp) {
 		BigDecimal amount = new BigDecimal(amounttemp);
-		money = amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN);
+		money = amount.divide(moneyMultiplyer, mc);
 	}
 	
 	public void setMoney(BigDecimal amount) {
-		money = amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN);
+		money = amount.divide(moneyMultiplyer, mc);
 	}
 	
 	public void setRawMoney(BigDecimal amount) {
@@ -180,29 +184,29 @@ public class Country {
 	
 	public void addMoney(double amounttemp) {
 		BigDecimal amount = new BigDecimal(amounttemp);
-		money = money.add((amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN)));
+		money = money.add((amount.divide(moneyMultiplyer, mc)));
 	}
 	
 	public void addMoney(BigDecimal amount) {
-		money = money.add((amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN)));
+		money = money.add((amount.divide(moneyMultiplyer, mc)));
 	}
 	
 	public void removeMoney(double amounttemp) {
 		BigDecimal amount = new BigDecimal(amounttemp);
-		money = money.subtract((amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN)));
+		money = money.subtract((amount.divide(moneyMultiplyer, mc2)));
 	}
 	
 	public void removeMoney(BigDecimal amount) {
-		money = money.subtract((amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN)));
+		money = money.subtract((amount.divide(moneyMultiplyer, mc2)));
 	}
 	
 	public void setLoan(double amounttemp) {
 		BigDecimal amount = new BigDecimal(amounttemp);
-		loan = amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN);
+		loan = amount.divide(moneyMultiplyer, mc);
 	}
 	
 	public void setLoan(BigDecimal amount) {
-		loan = amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN);
+		loan = amount.divide(moneyMultiplyer, mc);
 	}
 	
 	public void setRawLoan(BigDecimal amount) {
@@ -211,29 +215,29 @@ public class Country {
 	
 	public void addLoan(double amounttemp) {
 		BigDecimal amount = new BigDecimal(amounttemp);
-		loan = loan.add((amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN)));
+		loan = loan.add((amount.divide(moneyMultiplyer, mc)));
 	}
 	
 	public void addLoan(BigDecimal amount) {
-		loan = loan.add((amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN)));
+		loan = loan.add((amount.divide(moneyMultiplyer, mc)));
 	}
 	
 	public void removeLoan(double amounttemp) {
 		BigDecimal amount = new BigDecimal(amounttemp);
-		loan = loan.subtract((amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN)));
+		loan = loan.subtract((amount.divide(moneyMultiplyer, mc2)));
 	}
 	
 	public void removeLoan(BigDecimal amount) {
-		loan = loan.subtract((amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN)));
+		loan = loan.subtract((amount.divide(moneyMultiplyer, mc2)));
 	}
 	
 	public void setMaxLoan(double amounttemp) {
 		BigDecimal amount = new BigDecimal(amounttemp);
-		maxLoan = amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN);
+		maxLoan = amount.divide(moneyMultiplyer,mc);
 	}
 	
 	public void setMaxLoan(BigDecimal amount) {
-		maxLoan = amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN);
+		maxLoan = amount.divide(moneyMultiplyer,mc);
 	}
 	
 	public void setRawMaxLoan(BigDecimal amount) {
@@ -334,7 +338,7 @@ public class Country {
 	}
 	
 	public BigDecimal getMoney() {
-		return cut(money.multiply(moneyMultiplyer));
+		return cut(money.multiply(moneyMultiplyer, mc));
 	}
 	
 	public BigDecimal getRawMoney() {
@@ -347,7 +351,7 @@ public class Country {
 	}
 	
 	public BigDecimal getLoanAmount() {
-		return cut(loan.multiply(moneyMultiplyer));
+		return cut(loan.multiply(moneyMultiplyer, mc));
 	}
 	
 	public BigDecimal getRawLoanAmount() {
@@ -355,7 +359,7 @@ public class Country {
 	}
 	
 	public BigDecimal getMaxLoan() {
-		return cut(maxLoan.multiply(moneyMultiplyer));
+		return cut(maxLoan.multiply(moneyMultiplyer, mc));
 	}
 	
 	public BigDecimal getRawMaxLoan() {
@@ -397,6 +401,6 @@ public class Country {
 	
 	// A method to cut off decimals greater than the hundredth place;
 	public BigDecimal cut(BigDecimal x) {
-		return x.divide(new BigDecimal(1), 2, BigDecimal.ROUND_HALF_DOWN);
+		return x.divide(new BigDecimal(1), 2, BigDecimal.ROUND_DOWN);
 	}
 }

@@ -1,5 +1,6 @@
 package com.github.InspiredOne.InspiredNations;
 
+import java.math.BigDecimal;
 import java.util.Vector;
 
 
@@ -33,113 +34,113 @@ public class PlayerMethods {
 		PDI = plugin.playerdata.get(playername);
 	}
 	
-	public double taxAmount() {
-		return (houseTax()+goodBusinessTax()+serviceBusinessTax());
+	public BigDecimal taxAmount() {
+		return (houseTax().add(goodBusinessTax()).add(serviceBusinessTax()));
 	}
-	public double taxAmount(String town){
-		return (houseTax(town) + goodBusinessTax(town) + serviceBusinessTax(town));
+	public BigDecimal taxAmount(String town){
+		return (houseTax(town).add(goodBusinessTax(town)).add(serviceBusinessTax(town)));
 	}
 	
-	public double houseTax() {
+	public BigDecimal houseTax() {
 		Vector<House> Houses = PDI.getHouseOwned();
 		Country country = PDI.getCountryResides();
-		double amount = 0;
+		BigDecimal amount = BigDecimal.ZERO;
 		for (int i=0; i<Houses.size(); i++) {
 			House house = Houses.get(i);
-			amount += country.getTowns().get(house.getTown()).getHouseTax()*house.Volume()*house.getProtectionLevel()/(100.0*house.getOwners().size());
+			amount = amount.add(new BigDecimal(country.getTowns().get(house.getTown()).getHouseTax()).multiply(new BigDecimal(house.Volume()*house.getProtectionLevel()).divide(new BigDecimal((house.getOwners().size()*100.0)))));
 		}
 		return amount;
 	}
-	public double houseTax(House house) {
+	public BigDecimal houseTax(House house) {
 		Country country = PDI.getCountryResides();
-		double amount = 0;
-		amount = country.getTowns().get(house.getTown()).getHouseTax()*house.Volume()*house.getProtectionLevel()/(100.0*house.getOwners().size());
+		BigDecimal amount = BigDecimal.ZERO;
+		amount = new BigDecimal(country.getTowns().get(house.getTown()).getHouseTax()).multiply(new BigDecimal(house.Volume()*house.getProtectionLevel()).divide(new BigDecimal((house.getOwners().size()*100.0))));
 		return amount;
 	}
-	public double houseTax(House house, int level) {
+	public BigDecimal houseTax(House house, int level) {
 		Country country = PDI.getCountryResides();
-		double amount = 0;
-		amount = country.getTowns().get(house.getTown()).getHouseTax()*house.Volume()*level/(100.0*house.getOwners().size());
+		BigDecimal amount = BigDecimal.ZERO;
+		amount = new BigDecimal(country.getTowns().get(house.getTown()).getHouseTax()).multiply(new BigDecimal(house.Volume()*level).divide(new BigDecimal((house.getOwners().size()*100.0))));
 		return amount;
 	}
-	public double houseTax(String town) {
+	public BigDecimal houseTax(String town) {
 		Vector<House> Houses = PDI.getHouseOwned();
 		Country country = PDI.getCountryResides();
-		double amount = 0;
+		BigDecimal amount = BigDecimal.ZERO;
 		for (int i=0; i<Houses.size(); i++) {
 			House house = Houses.get(i);
 			if (PDI.getCountryResides().getTowns().get(house.getTown()).getName().equalsIgnoreCase(town)){
-				amount += country.getTowns().get(house.getTown()).getHouseTax()*house.Volume()*house.getProtectionLevel()/(house.getOwners().size()*100.0);
+				amount = amount.add(new BigDecimal(country.getTowns().get(house.getTown()).getHouseTax()).multiply(new BigDecimal(house.Volume()*house.getProtectionLevel()).divide(new BigDecimal((house.getOwners().size()*100.0)))));
 			}
 		}
 		return amount;
 	}
 	
-	public double goodBusinessTax() {
+	public BigDecimal goodBusinessTax() {
 		Vector<GoodBusiness> businesses = PDI.getGoodBusinessOwned();
 		Country country = PDI.getCountryResides();
-		double amount = 0;
+		BigDecimal amount = BigDecimal.ZERO;
 		for (int i=0; i<businesses.size(); i++) {
 			GoodBusiness business = businesses.get(i);
-			amount += country.getTowns().get(business.getTown()).getGoodBusinessTax()*business.Volume()*business.getProtectionLevel()/(business.getOwners().size()*100.0);
+			amount = amount.add(new BigDecimal(country.getTowns().get(business.getTown()).getGoodBusinessTax()).multiply(new BigDecimal(business.Volume()*business.getProtectionLevel()).divide(new BigDecimal(business.getOwners().size()*100.0))));
 		}
 		return amount;
 	}
-	public double goodBusinessTax(GoodBusiness business) {
+	public BigDecimal goodBusinessTax(GoodBusiness business) {
 		Country country = PDI.getCountryResides();
-		double amount = 0;
-		amount = country.getTowns().get(business.getTown()).getGoodBusinessTax()*business.Volume()*business.getProtectionLevel()/(business.getOwners().size()*100.0);
+		BigDecimal amount = BigDecimal.ZERO;
+		amount = new BigDecimal(country.getTowns().get(business.getTown()).getGoodBusinessTax()).multiply(new BigDecimal(business.Volume()*business.getProtectionLevel()).divide(new BigDecimal(business.getOwners().size()*100.0)));
 		return amount;
 	}
-	public double goodBusinessTax(GoodBusiness business, int level) {
+	public BigDecimal goodBusinessTax(GoodBusiness business, int level) {
 		Country country = PDI.getCountryResides();
-		double amount = 0;
-		amount = country.getTowns().get(business.getTown()).getGoodBusinessTax()*business.Volume()*level/(business.getOwners().size()*100.0);
+		BigDecimal amount = BigDecimal.ZERO;
+		amount = new BigDecimal(country.getTowns().get(business.getTown()).getGoodBusinessTax()).multiply(new BigDecimal(business.Volume()*level).divide(new BigDecimal(business.getOwners().size()*100.0)));
 		return amount;
 	}
-	public double goodBusinessTax(String town) {
+	public BigDecimal goodBusinessTax(String town) {
 		Vector<GoodBusiness> businesses = PDI.getGoodBusinessOwned();
 		Country country = PDI.getCountryResides();
-		double amount = 0;
+		BigDecimal amount = BigDecimal.ZERO;
 		for (int i=0; i<businesses.size(); i++) {
 			GoodBusiness business = businesses.get(i);
 			if (PDI.getCountryResides().getTowns().get(business.getTown()).getName().equalsIgnoreCase(town)){
-				amount += country.getTowns().get(business.getTown()).getGoodBusinessTax()*business.Volume()*business.getProtectionLevel()/(business.getOwners().size()*100.0);
+				amount = amount.add(new BigDecimal(country.getTowns().get(business.getTown()).getGoodBusinessTax()).multiply(new BigDecimal(business.Volume()*business.getProtectionLevel()).divide(new BigDecimal(business.getOwners().size()*100.0))));
 			}
 		}
 		return amount;
 	}
 	
-	public double serviceBusinessTax() {
+	public BigDecimal serviceBusinessTax() {
 		Vector<ServiceBusiness> businesses = PDI.getServiceBusinessOwned();
 		Country country = PDI.getCountryResides();
-		double amount = 0;
+		BigDecimal amount = BigDecimal.ZERO;
 		for (int i=0; i<businesses.size(); i++) {
 			ServiceBusiness business = businesses.get(i);
-			amount += country.getTowns().get(business.getTown()).getServiceBusinessTax()*business.Volume()/(business.getOwners().size()*100.0);
+			amount =  amount.add(new BigDecimal(country.getTowns().get(business.getTown()).getServiceBusinessTax()).multiply(new BigDecimal(business.Volume()*business.getProtectionLevel()).divide(new BigDecimal(business.getOwners().size()*100.0))));
 		}
 		return amount;
 	}
-	public double serviceBusinessTax(ServiceBusiness business) {
+	public BigDecimal serviceBusinessTax(ServiceBusiness business) {
 		Country country = PDI.getCountryResides();
-		double amount = 0;
-		amount = country.getTowns().get(business.getTown()).getGoodBusinessTax()*business.Volume()*business.getProtectionLevel()/(business.getOwners().size()*100.0);
+		BigDecimal amount = BigDecimal.ZERO;
+		amount =  new BigDecimal(country.getTowns().get(business.getTown()).getGoodBusinessTax()).multiply(new BigDecimal(business.Volume()*business.getProtectionLevel()).divide(new BigDecimal((business.getOwners().size()*100.0))));
 		return amount;
 	}
-	public double serviceBusinessTax(ServiceBusiness business, int level) {
+	public BigDecimal serviceBusinessTax(ServiceBusiness business, int level) {
 		Country country = PDI.getCountryResides();
-		double amount = 0;
-		amount = country.getTowns().get(business.getTown()).getGoodBusinessTax()*business.Volume()*level/(business.getOwners().size()*100.0);
+		BigDecimal amount = BigDecimal.ZERO;
+		amount = new BigDecimal(country.getTowns().get(business.getTown()).getGoodBusinessTax()).multiply(new BigDecimal(business.Volume()*level).divide(new BigDecimal((business.getOwners().size()*100.0))));
 		return amount;
 	}
-	public double serviceBusinessTax(String town) {
+	public BigDecimal serviceBusinessTax(String town) {
 		Vector<ServiceBusiness> businesses = PDI.getServiceBusinessOwned();
 		Country country = PDI.getCountryResides();
-		double amount = 0;
+		BigDecimal amount = BigDecimal.ZERO;
 		for (int i=0; i<businesses.size(); i++) {
 			ServiceBusiness business = businesses.get(i);
 			if (PDI.getCountryResides().getTowns().get(business.getTown()).getName().equalsIgnoreCase(town)){
-				amount += country.getTowns().get(business.getTown()).getServiceBusinessTax()*business.Volume()/(business.getOwners().size()*100.0);
+				amount = amount.add(new BigDecimal(country.getTowns().get(business.getTown()).getServiceBusinessTax()).multiply(new BigDecimal(business.Volume()*business.getProtectionLevel()).divide(new BigDecimal(business.getOwners().size()*100.0))));
 			}
 		}
 		return amount;

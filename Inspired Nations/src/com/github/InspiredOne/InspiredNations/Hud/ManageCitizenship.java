@@ -96,7 +96,7 @@ public class ManageCitizenship extends StringPrompt {
 			options = options.concat("Country: " + ChatColor.GOLD + PDI.getCountryResides().getName() + ChatColor.YELLOW + repeat(" ", 68 - countryLength));
 			if (PDI.getIsTownResident()) {
 				int townLength = (int) (PDI.getTownResides().getName().length() * 1.4);
-				options = options.concat("Town: " + ChatColor.GOLD + PDI.getTownResides().getName() + ChatColor.YELLOW + repeat(" ", 70 - townLength));
+				options = options.concat("Town: " + ChatColor.GOLD + PDI.getTownResides().getName() + ChatColor.YELLOW + repeat(" ", 74 - townLength));
 			}
 			if (PDI.getIsCountryRuler()) {
 				options = options.concat(ChatColor.RED + "You need to transfer rulership of your Country before changing citizenship." + repeat(" ", 54));

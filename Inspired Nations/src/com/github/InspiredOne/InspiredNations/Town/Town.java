@@ -3,6 +3,8 @@ package com.github.InspiredOne.InspiredNations.Town;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.Vector;
 
 import org.bukkit.Location;
@@ -55,6 +57,8 @@ public class Town {
 	private boolean isCapital = false;
 	private int protectionLevel = 1;
 	private int futureprotectionlevel = 1;
+	private MathContext mc = new MathContext(100, RoundingMode.UP);
+	private MathContext mc2 = new MathContext(100, RoundingMode.DOWN);
 	
 	public Town(InspiredNations instance, Chunks areatemp, String nametemp, String mayortemp, String countrytemp) {
 		plugin = instance;
@@ -235,11 +239,11 @@ public class Town {
 	
 	public void setMoney(double amounttemp) {
 		BigDecimal amount = new BigDecimal(amounttemp);
-		money = amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN);
+		money = amount.divide(moneyMultiplyer, mc);
 	}
 	
 	public void setMoney(BigDecimal amount) {
-		money = amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN);
+		money = amount.divide(moneyMultiplyer, mc);
 	}
 	
 	public void setRawMoney(BigDecimal amount) {
@@ -248,20 +252,20 @@ public class Town {
 	
 	public void addMoney(double amounttemp) {
 		BigDecimal amount = new BigDecimal(amounttemp);
-		money = money.add((amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN)));
+		money = money.add((amount.divide(moneyMultiplyer, mc)));
 	}
 	
 	public void addMoney(BigDecimal amount) {
-		money = money.add((amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN)));
+		money = money.add((amount.divide(moneyMultiplyer, mc)));
 	}
 	
 	public void removeMoney(double amounttemp) {
 		BigDecimal amount = new BigDecimal(amounttemp);
-		money = money.subtract((amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN)));
+		money = money.subtract((amount.divide(moneyMultiplyer, mc2)));
 	}
 	
 	public void removeMoney(BigDecimal amount) {
-		money = money.subtract((amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN)));
+		money = money.subtract((amount.divide(moneyMultiplyer, mc2)));
 	}
 	
 	public void setMoneyMultiplyer(double multiplyertemp) {
@@ -275,11 +279,11 @@ public class Town {
 	
 	public void setLoan(double amounttemp) {
 		BigDecimal amount = new BigDecimal(amounttemp);
-		loan = amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN);
+		loan = amount.divide(moneyMultiplyer, mc);
 	}
 	
 	public void setLoan(BigDecimal amount) {
-		loan = amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN);
+		loan = amount.divide(moneyMultiplyer, mc);
 	}
 	
 	public void setRawLoan(BigDecimal amount) {
@@ -288,29 +292,29 @@ public class Town {
 	
 	public void addLoan(double amounttemp) {
 		BigDecimal amount = new BigDecimal(amounttemp);
-		loan = loan.add((amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN)));
+		loan = loan.add((amount.divide(moneyMultiplyer, mc)));
 	}
 	
 	public void addLoan(BigDecimal amount) {
-		loan = loan.add((amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN)));
+		loan = loan.add((amount.divide(moneyMultiplyer, mc)));
 	}
 	
 	public void removeLoan(double amounttemp) {
 		BigDecimal amount = new BigDecimal(amounttemp);
-		loan = loan.subtract((amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN)));
+		loan = loan.subtract((amount.divide(moneyMultiplyer, mc2)));
 	}
 	
 	public void removeLoan(BigDecimal amount) {
-		loan = loan.subtract((amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN)));
+		loan = loan.subtract((amount.divide(moneyMultiplyer, mc2)));
 	}
 	
 	public void setMaxLoan(double amounttemp) {
 		BigDecimal amount = new BigDecimal(amounttemp);
-		maxLoan = amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN);
+		maxLoan = amount.divide(moneyMultiplyer, mc);
 	}
 	
 	public void setMaxLoan(BigDecimal amount) {
-		maxLoan = amount.divide(moneyMultiplyer, 25, BigDecimal.ROUND_DOWN);
+		maxLoan = amount.divide(moneyMultiplyer, mc);
 	}
 	
 	public void setRawMaxLoan(BigDecimal amount) {
@@ -469,13 +473,12 @@ public class Town {
 	}
 	
 	public BigDecimal getRevenue() {
-		double taxRevenue = 0;
-		for (int i = 0; i < residents.size(); i++) {
-			String playername = residents.get(i).toLowerCase();
+		BigDecimal taxRevenue = BigDecimal.ZERO;
+		for (String playername:plugin.countrydata.get(country).getResidents()) {
 			PlayerMethods PMI = new PlayerMethods(plugin, playername);
-			taxRevenue = taxRevenue + PMI.taxAmount();
+			taxRevenue = taxRevenue.add(PMI.taxAmount(name));
 		}
-		return new BigDecimal(taxRevenue);
+		return taxRevenue;
 	}
 	
 	public int getProtectionLevel() {
