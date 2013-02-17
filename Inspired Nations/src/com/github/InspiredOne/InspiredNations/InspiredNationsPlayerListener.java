@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2013 InspiredOne.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Public License v3.0
+ * which accompanies this distribution, and is available at
+ * http://www.gnu.org/licenses/gpl.html
+ * 
+ * Contributors:
+ *     InspiredOne - initial API and implementation
+ ******************************************************************************/
 package com.github.InspiredOne.InspiredNations;
 
 
@@ -87,31 +97,9 @@ public class InspiredNationsPlayerListener implements Listener {
 		PlayerModes PM = plugin.playermodes.get(playername);
 		
 		// put this under onPlayerInteract
-		if (!player.isConversing() && (PM.preCountrySelect() || PM.countrySelect() || PM.townSelect() || PM.preTownSelect() || PM.preDeselectCountry() || PM.countryDeselect()
-				|| PM.localBankSelect() || PM.localHallSelect() || PM.parkSelect() || PM.hospitalSelect() || PM.localPrisonSelect() || PM.federalParkSelect() ||
-				PM.houseSelect() || PM.serviceBusinessSelect() || PM.goodBusinessSelect() || PM.getPlaceItem() || PM.placesign)) {
-			PM.preCountry(false);
-			PM.predecountry(false);
-			PM.country(false);
-			PM.decountry(false);
-			PM.town(false);
-			PM.preTown(false);
-			PM.localHall(false);
-			PM.localBank(false);
-			PM.park(false);
-			PM.localPrison(false);
-			PM.hospital(false);
-			PM.federalPark(false);
-			PM.house(false);
-			PM.goodBusiness(false);
-			PM.serviceBusiness(false);
-			PM.setBlocksBack();
-			PM.selectCuboid(false);
-			PM.selectPolygon(false);
-			PM.setPlaceItem(false);
-			PM.placesign = false;
-			return;
-		}
+		if(resetPlayerModes(player, PM)) return;
+		
+		
 		if (event.getTo().getBlockX() != event.getFrom().getBlockX() || event.getTo().getBlockZ() != event.getFrom().getBlockZ() || (Math.round((event.getFrom().getYaw()/45)) != Math.round((event.getTo().getYaw()/45)))) {
 			ClaimCountryLandPlayerListener CLPL = new ClaimCountryLandPlayerListener(plugin, event);
 			UnclaimCountryLandPlayerListener UCLPL = new UnclaimCountryLandPlayerListener(plugin, event);
@@ -424,6 +412,8 @@ public class InspiredNationsPlayerListener implements Listener {
 		PlayerData PDI = plugin.playerdata.get(playername);
 		PlayerModes PM = plugin.playermodes.get(playername);
 		
+		if(resetPlayerModes(player, PM)) return;
+		
 		ClaimLocalHallPlayerListener LHPL = new ClaimLocalHallPlayerListener(plugin, event);
 		ClaimLocalBankPlayerListener LBPL = new ClaimLocalBankPlayerListener(plugin, event);
 		ClaimParkPlayerListener PPL = new ClaimParkPlayerListener(plugin, event);
@@ -469,4 +459,33 @@ public class InspiredNationsPlayerListener implements Listener {
 		PM.setBlocksBack();
 	}
 	
+	// method to reset player mode values
+	public boolean resetPlayerModes(Player player, PlayerModes PM) {
+		if (!player.isConversing() && (PM.preCountrySelect() || PM.countrySelect() || PM.townSelect() || PM.preTownSelect() || PM.preDeselectCountry() || PM.countryDeselect()
+				|| PM.localBankSelect() || PM.localHallSelect() || PM.parkSelect() || PM.hospitalSelect() || PM.localPrisonSelect() || PM.federalParkSelect() ||
+				PM.houseSelect() || PM.serviceBusinessSelect() || PM.goodBusinessSelect() || PM.getPlaceItem() || PM.placesign)) {
+			PM.preCountry(false);
+			PM.predecountry(false);
+			PM.country(false);
+			PM.decountry(false);
+			PM.town(false);
+			PM.preTown(false);
+			PM.localHall(false);
+			PM.localBank(false);
+			PM.park(false);
+			PM.localPrison(false);
+			PM.hospital(false);
+			PM.federalPark(false);
+			PM.house(false);
+			PM.goodBusiness(false);
+			PM.serviceBusiness(false);
+			PM.setBlocksBack();
+			PM.selectCuboid(false);
+			PM.selectPolygon(false);
+			PM.setPlaceItem(false);
+			PM.placesign = false;
+			return true;
+		}
+		else return false;
+	}
 }
