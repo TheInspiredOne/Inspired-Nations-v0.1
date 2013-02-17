@@ -41,7 +41,7 @@ public class Park {
 	
 	public BigDecimal getTaxAmount() {
 		if (town == -1) {
-			return plugin.countrydata.get(country.toLowerCase()).getMoneyMultiplyer().multiply(new BigDecimal(Volume() * getProtectionLevel() * plugin.getConfig().getDouble("federal_park_base_cost")).multiply(plugin.countrydata.get(country.toLowerCase()).getMoneyMultiplyer()));
+			return plugin.countrydata.get(country.toLowerCase()).getMoneyMultiplyer().multiply(new BigDecimal(Volume() * getProtectionLevel() * plugin.getConfig().getDouble("federal_park_base_cost")));
 		}
 		else {
 			return plugin.countrydata.get(country.toLowerCase()).getTowns().get(town).getMoneyMultiplyer().multiply((new BigDecimal(Volume() * getProtectionLevel() * plugin.countrydata.get(country.toLowerCase()).getTaxRate()/10000 * plugin.getConfig().getDouble("park_tax_multiplyer") *

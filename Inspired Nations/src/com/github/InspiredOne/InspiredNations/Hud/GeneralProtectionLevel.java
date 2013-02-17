@@ -128,8 +128,7 @@ public class GeneralProtectionLevel extends StringPrompt {
 			options = options.concat(ChatColor.YELLOW + "New Protection Cost: " + ChatColor.GOLD + cut(park.getTaxAmount(park.getFutureProtectionLevel())).toString() + 
 					ChatColor.GRAY + " Applied after next tax cycle. " + repeat(" ", (int) (15 - Math.round((cut(park.getTaxAmount(park.getFutureProtectionLevel())).toString().length() * 1.4)))));
 			options = options.concat(ChatColor.DARK_AQUA + repeat("-", 53) + ChatColor.GREEN);
-			options = options.concat(ChatColor.YELLOW + "Protection level is how much protection you get from military funding. Changes become effective after next taxation cycle." + repeat(" ", 3));
-			options = options.concat(ChatColor.GOLD + "Level 0: " + ChatColor.YELLOW + "(No protection) Anybody that can build in your country can build in your park." + repeat(" ", 45));
+			options = options.concat(ChatColor.GOLD + "Level 0: " + ChatColor.YELLOW + "(No protection) Anybody that can build in your country can build in your park." + repeat(" ", 40));
 			options = options.concat(ChatColor.GOLD + "Level 1: " + ChatColor.YELLOW + "(Complete protection) Only country rulers and designated builders can build in the park." + repeat(" ", 11));
 			options = options.concat(ChatColor.DARK_AQUA + repeat("-", 53) + ChatColor.GREEN);
 			options = options.concat("Set <level number>" + repeat(" ", 55));
@@ -141,8 +140,7 @@ public class GeneralProtectionLevel extends StringPrompt {
 			options = options.concat(ChatColor.YELLOW + "New Protection Cost: " + ChatColor.GOLD + cut(park.getTaxAmount(park.getFutureProtectionLevel())).toString() + 
 					ChatColor.GRAY + " Applied after next tax cycle. " + repeat(" ", (int) (15 - Math.round((cut(park.getTaxAmount(park.getFutureProtectionLevel())).toString().length() * 1.4)))));
 			options = options.concat(ChatColor.DARK_AQUA + repeat("-", 53) + ChatColor.GREEN);
-			options = options.concat(ChatColor.YELLOW + "Protection level is how much protection you get from military funding. Changes become effective after next taxation cycle." + repeat(" ", 3));
-			options = options.concat(ChatColor.GOLD + "Level 0: " + ChatColor.YELLOW + "(No protection) anybody that can build in your town can build in your park." + repeat(" ", 53));
+			options = options.concat(ChatColor.GOLD + "Level 0: " + ChatColor.YELLOW + "(No protection) Anybody that can build in your town can build in your park." + repeat(" ", 50));
 			options = options.concat(ChatColor.GOLD + "Level 1: " + ChatColor.YELLOW + "(Complete protection) Only country rulers, town rulers and designated builders can build in the park." + repeat(" ", 11));
 			options = options.concat(ChatColor.DARK_AQUA + repeat("-", 53) + ChatColor.GREEN);
 			options = options.concat("Set <level number>" + repeat(" ", 55));
@@ -154,10 +152,9 @@ public class GeneralProtectionLevel extends StringPrompt {
 			options = options.concat(ChatColor.YELLOW + "New Protection Cost: " + ChatColor.GOLD + cut(PMeth.houseTax(house, house.getFutureProtectionLevel()))).toString() + 
 					ChatColor.GRAY + " Applied after next tax cycle. " + repeat(" ", (int) (15 - Math.round((cut(PMeth.houseTax(house, house.getFutureProtectionLevel())).toString().length() * 1.4))));
 			options = options.concat(ChatColor.DARK_AQUA + repeat("-", 53) + ChatColor.GREEN);
-			options = options.concat(ChatColor.YELLOW + "Protection level is how much protection you get from military funding. Changes become effective after next taxation cycle." + repeat(" ", 3));
-			options = options.concat(ChatColor.GOLD + "Level 0: " + ChatColor.YELLOW + "(No protection) Anybody that can build and interact in your town can build and interact in your house." + repeat(" ", 53));
-			options = options.concat(ChatColor.GOLD + "Level 1: " + ChatColor.YELLOW + "(Block protection) Only country rulers, town rulers, designated builders, and house owners can build in the house." + repeat(" ", 11));
-			options = options.concat(ChatColor.GOLD + "Level 2: " + ChatColor.YELLOW + "(Interact protection) Only country rulers, town rulers, designated builders, and house owners can interact in the house." + repeat(" ", 11));
+			options = options.concat(ChatColor.GOLD + "Level 0: " + ChatColor.YELLOW + "(No protection) Anybody that can build and interact in your town can build and interact in your house." + repeat(" ", 20));
+			options = options.concat(ChatColor.GOLD + "Level 1: " + ChatColor.YELLOW + "(Block protection) Only country rulers, town rulers, designated builders, and house owners can build in the house." + repeat(" ", 1));
+			options = options.concat(ChatColor.GOLD + "Level 2: " + ChatColor.YELLOW + "(Interact protection) Only country rulers, town rulers, designated builders, and house owners can interact in the house." + repeat(" ", 65));
 			options = options.concat(ChatColor.GOLD + "Level 3: " + ChatColor.YELLOW + "(Player protection) You gain damage protection from non-house residents." + repeat(" ", 11));
 			options = options.concat(ChatColor.DARK_AQUA + repeat("-", 53) + ChatColor.GREEN);
 			options = options.concat("Set <level number>" + repeat(" ", 55));
@@ -169,11 +166,10 @@ public class GeneralProtectionLevel extends StringPrompt {
 			options = options.concat(ChatColor.YELLOW + "New Protection Cost: " + ChatColor.GOLD + cut(PMeth.goodBusinessTax(good, good.getFutureProtectionLevel())).toString() + 
 					ChatColor.GRAY + " Applied after next tax cycle. " + repeat(" ", (int) (15 - Math.round((cut(PMeth.goodBusinessTax(good, good.getFutureProtectionLevel()))).toString().length() * 1.4))));
 			options = options.concat(ChatColor.DARK_AQUA + repeat("-", 53) + ChatColor.GREEN);
-			options = options.concat(ChatColor.YELLOW + "Protection level is how much protection you get from military funding. Changes become effective after next taxation cycle." + repeat(" ", 3));
-			options = options.concat(ChatColor.GOLD + "Level 0: " + ChatColor.YELLOW + "(No protection) Anybody that can build and interact in your town can build and interact in your business." + repeat(" ", 53));
-			options = options.concat(ChatColor.GOLD + "Level 1: " + ChatColor.YELLOW + "(Block protection) Only country rulers, town rulers, designated builders, employees, and business owners can build in the business." + repeat(" ", 11));
-			options = options.concat(ChatColor.GOLD + "Level 2: " + ChatColor.YELLOW + "(Interact protection) Only country rulers, town rulers, designated builders, employees, and house owners can interact in the business." + repeat(" ", 11));
-			options = options.concat(ChatColor.GOLD + "Level 3: " + ChatColor.YELLOW + "(Player protection) Employees and owners gain protection from non-business affiliates within the boundary of the business." + repeat(" ", 11));
+			options = options.concat(ChatColor.GOLD + "Level 0: " + ChatColor.YELLOW + "(No protection) Anybody that can build and interact in your town can build and interact in your business." + repeat(" ", 12));
+			options = options.concat(ChatColor.GOLD + "Level 1: " + ChatColor.YELLOW + "(Block protection) Only country rulers, town rulers, employees, and business owners can build in the business." + repeat(" ", 1));
+			options = options.concat(ChatColor.GOLD + "Level 2: " + ChatColor.YELLOW + "(Interact protection) Only country rulers, town rulers, employees, and business owners can interact in the business." + repeat(" ", 65));
+			options = options.concat(ChatColor.GOLD + "Level 3: " + ChatColor.YELLOW + "(Player protection) Employees and owners gain protection from attacks within the business." + repeat(" ", 11));
 			options = options.concat(ChatColor.DARK_AQUA + repeat("-", 53) + ChatColor.GREEN);
 			options = options.concat("Set <level number>" + repeat(" ", 55));
 		}
@@ -184,11 +180,10 @@ public class GeneralProtectionLevel extends StringPrompt {
 			options = options.concat(ChatColor.YELLOW + "New Protection Cost: " + ChatColor.GOLD + cut(PMeth.serviceBusinessTax(service, service.getFutureProtectionLevel())).toString() + 
 					ChatColor.GRAY + " Applied after next tax cycle. " + repeat(" ", (int) (15 - Math.round(cut(PMeth.serviceBusinessTax(service, service.getFutureProtectionLevel())).toString().length() * 1.4))));
 			options = options.concat(ChatColor.DARK_AQUA + repeat("-", 53) + ChatColor.GREEN);
-			options = options.concat(ChatColor.YELLOW + "Protection level is how much protection you get from military funding. Changes become effective after next taxation cycle." + repeat(" ", 3));
-			options = options.concat(ChatColor.GOLD + "Level 0: " + ChatColor.YELLOW + "(No protection) Anybody that can build and interact in your town can build and interact in your business." + repeat(" ", 53));
-			options = options.concat(ChatColor.GOLD + "Level 1: " + ChatColor.YELLOW + "(Block protection) Only country rulers, town rulers, designated builders, employees, and business owners can build in the business." + repeat(" ", 11));
-			options = options.concat(ChatColor.GOLD + "Level 2: " + ChatColor.YELLOW + "(Interact protection) Only country rulers, town rulers, designated builders, employees, and house owners can interact in the business." + repeat(" ", 11));
-			options = options.concat(ChatColor.GOLD + "Level 3: " + ChatColor.YELLOW + "(Player protection) Employees and owners gain protection from non-business affiliates within the boundary of the business." + repeat(" ", 11));
+			options = options.concat(ChatColor.GOLD + "Level 0: " + ChatColor.YELLOW + "(No protection) Anybody that can build and interact in your town can build and interact in your business." + repeat(" ", 12));
+			options = options.concat(ChatColor.GOLD + "Level 1: " + ChatColor.YELLOW + "(Block protection) Only country rulers, town rulers, employees, and business owners can build in the business." + repeat(" ", 1));
+			options = options.concat(ChatColor.GOLD + "Level 2: " + ChatColor.YELLOW + "(Interact protection) Only country rulers, town rulers, employees, and business owners can interact in the business." + repeat(" ", 65));
+			options = options.concat(ChatColor.GOLD + "Level 3: " + ChatColor.YELLOW + "(Player protection) Employees and owners gain protection from attacks within the business." + repeat(" ", 11));
 			options = options.concat(ChatColor.DARK_AQUA + repeat("-", 53) + ChatColor.GREEN);
 			options = options.concat("Set <level number>" + repeat(" ", 55));
 		}

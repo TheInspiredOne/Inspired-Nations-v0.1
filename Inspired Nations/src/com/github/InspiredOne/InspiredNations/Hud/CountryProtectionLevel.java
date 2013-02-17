@@ -85,13 +85,11 @@ public class CountryProtectionLevel extends StringPrompt{
 		options = options.concat(ChatColor.YELLOW + "New Military Funding: " + ChatColor.GOLD + cut(countryMethods.getTaxAmount(country.getFutureProtectionLevel())).toString() + 
 				ChatColor.GRAY + " Applied after next tax cycle. " + repeat(" ", (int) (15 - Math.round((cut(countryMethods.getTaxAmount(country.getFutureProtectionLevel())).toString().length() * 1.4)))));
 		options = options.concat(ChatColor.DARK_AQUA + repeat("-", 53) + ChatColor.GREEN);
-		options = options.concat(ChatColor.YELLOW + "Protection level is how much protection you get from military funding. Changes become effective after next taxation cycle." + repeat(" ", 3));
-		options = options.concat(ChatColor.GOLD + "Level 0: " + ChatColor.YELLOW + "(No protection) Anybody can build in your country and government regions. Country Land can be" +
-				" claimed by other countries." + repeat(" ", 50));
-		options = options.concat(ChatColor.GOLD + "Level 1: " + ChatColor.YELLOW + "(Claim Protection) Country land is protected from being claimed by other countries." + repeat(" ", 50));
-		options = options.concat(ChatColor.GOLD + "Level 2: " + ChatColor.YELLOW + "(Immigration Control) Players need permission to join your country." + repeat(" ", 5));
-		options = options.concat(ChatColor.GOLD + "Level 3: " + ChatColor.YELLOW + "(Block and Interactable Protection) Only country residents can build and interact in your country." + repeat(" ", 5));
-		options = options.concat(ChatColor.GOLD + "Level 4: " + ChatColor.YELLOW + "(Player Protection) Players are protected from damage taken from non-country residents while within the country boundary." + repeat(" ", 5));
+		options = options.concat(ChatColor.GOLD + "Level 0: " + ChatColor.YELLOW + "(No protection) Any entity can claim or build on your country's land." + repeat(" ", 60));
+		options = options.concat(ChatColor.GOLD + "Level 1: " + ChatColor.YELLOW + "(Claim Protection) Country land is protected from being claimed." + repeat(" ", 60));
+		options = options.concat(ChatColor.GOLD + "Level 2: " + ChatColor.YELLOW + "(Immigration Control) Players need permission to join." + repeat(" ", 1));
+		options = options.concat(ChatColor.GOLD + "Level 3: " + ChatColor.YELLOW + "(Block and Interactable Protection) Only country residents can build and interact in country." + repeat(" ", 20));
+		options = options.concat(ChatColor.GOLD + "Level 4: " + ChatColor.YELLOW + "(Player Protection) Players are protected from attacks while within country boundary." + repeat(" ", 5));
 		options = options.concat(ChatColor.DARK_AQUA + repeat("-", 53) + ChatColor.GREEN);
 		
 		options = options.concat("Set <level number>" + repeat(" ", 55));
