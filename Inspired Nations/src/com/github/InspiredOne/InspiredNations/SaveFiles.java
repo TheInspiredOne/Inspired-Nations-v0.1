@@ -107,6 +107,8 @@ public class SaveFiles {
 			dataFileConfig.addDefault(key + ".name", country.getName());
 			dataFileConfig.addDefault(key + ".ruler", country.getRuler());
 			dataFileConfig.addDefault(key + ".corulers.size", country.getCoRulers().size());
+			serializeVector(country.getOffers(), key + ".residentoffer");
+			serializeVector(country.getRequests(), key + ".residentrequest");
 			for (int i = 0; i < country.getCoRulers().size(); i++) {
 				dataFileConfig.addDefault(key + ".corulers." + i, country.getCoRulers().get(i));
 			}
@@ -219,6 +221,8 @@ public class SaveFiles {
 				area.addChunk(pointtemp);
 				plugin.chunks.put(pointtemp, name.toLowerCase());
 			}
+			countrytemp.setRequest(deserializeVector(key + ".residentrequest"));
+			countrytemp.setOffer(deserializeVector(key + "residentoffer"));
 			countrytemp.setArea(area);
 			countrytemp.setProtectionLevel(dataFileConfig.getInt(key + ".protectionLevel"));
 			countrytemp.setFutureProtectionLevel(dataFileConfig.getInt(key + ".futureprotectionlevel"));
@@ -599,6 +603,8 @@ public class SaveFiles {
 		dataFileConfig.addDefault(key + ".country", town.getCountry());
 		dataFileConfig.addDefault(key + ".mayor", town.getMayor());
 		dataFileConfig.addDefault(key + ".coMayors.size", town.getCoMayors().size());
+		serializeVector(town.getOffers(), key + ".residentoffer");
+		serializeVector(town.getRequests(), key + ".residentrequest");
 		for (int i = 0; i < town.getCoMayors().size(); i++) {
 			dataFileConfig.addDefault(key + ".coMayors." + i, town.getCoMayors().get(i));
 		}
@@ -776,6 +782,8 @@ public class SaveFiles {
 			area.addChunk(pointtemp);
 		}
 		town.setArea(area);
+		town.setRequest(deserializeVector(key + ".residentrequest"));
+		town.setOffer(deserializeVector(key + ".residentoffer"));
 		town.setNationTax(dataFileConfig.getDouble(key + ".nationTax"));
 		town.setHouseTax(dataFileConfig.getDouble(key + ".houseTax"));
 		town.setGoodBusinessTax(dataFileConfig.getDouble(key + ".goodBusinessTax"));

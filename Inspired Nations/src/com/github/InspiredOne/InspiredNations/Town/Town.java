@@ -48,11 +48,12 @@ public class Town {
 	private Vector<ServiceBusiness> serviceBusinesses = new Vector<ServiceBusiness>();
 	private Vector<Park> parks = new Vector<Park>();
 	private Vector<String> residents = new Vector<String>();
+	private Vector<String> request = new Vector<String>();
+	private Vector<String> offer = new Vector<String>();
 	private Hospital hospital = null;
 	private LocalHall townHall = null;
 	private LocalPrison prison = null;
 	private LocalBank bank = null;
-	private polygonPrism afsarea;
 	private Chunks area2 = new Chunks();
 	private double nationTax = 1;
 	private double houseTax = 1;
@@ -119,6 +120,38 @@ public class Town {
 	
 	public void removeCoMayor(String playername) {
 		coMayors.remove(playername);
+	}
+	
+	public void addRequest(String person) {
+		request.add(person);
+	}
+	
+	public void removeRequest(String person) {
+		request.remove(person);
+	}
+	
+	public void setRequest(Vector<String> list) {
+		request = list;
+	}
+	
+	public void addOffer(String person) {
+		offer.add(person);
+	}
+	
+	public void removeOffer(String person) {
+		offer.remove(person);
+	}
+	
+	public void setOffer(Vector<String> list) {
+		offer = list;
+	}
+	
+	public Vector<String> getRequests() {
+		return request;
+	}
+	
+	public Vector<String> getOffers() {
+		return offer;
 	}
 	
 	public void setArea(Chunks newarea) {

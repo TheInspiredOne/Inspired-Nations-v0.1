@@ -37,6 +37,8 @@ public class Country {
 	private Vector<Road> roads = new Vector<Road>();
 	private Vector<String> residents = new Vector<String>();
 	private Vector<Park> parks = new Vector<Park>();
+	private Vector<String> request = new Vector<String>();
+	private Vector<String> offer = new Vector<String>();
 	private int population = 0;
 	private Chunks area = new Chunks();
 	private String pluralMoneyName = "";
@@ -145,6 +147,37 @@ public class Country {
 		residents.remove(person);
 	}
 	
+	public void addRequest(String person) {
+		request.add(person);
+	}
+	
+	public void removeRequest(String person) {
+		request.remove(person);
+	}
+	
+	public void setRequest(Vector<String> list) {
+		request = list;
+	}
+	
+	public void addOffer(String person) {
+		offer.add(person);
+	}
+	
+	public void removeOffer(String person) {
+		offer.remove(person);
+	}
+	
+	public void setOffer(Vector<String> list) {
+		offer = list;
+	}
+	
+	public Vector<String> getRequests() {
+		return request;
+	}
+	
+	public Vector<String> getOffers() {
+		return offer;
+	}
 	public void setPopulation(int number) {
 		population = number;
 		if (population > plugin.getConfig().getInt("min_population")) {
