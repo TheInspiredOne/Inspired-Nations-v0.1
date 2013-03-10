@@ -79,8 +79,8 @@ public class HudConversationMain extends StringPrompt{
 				+ ChatColor.DARK_AQUA + repeat("-", 53) + ChatColor.GREEN;
 		String end = ChatColor.DARK_AQUA + repeat("-", 53) + ChatColor.AQUA + "Type 'exit' to leave." + repeat(" ", 55);
 		String errormsg = "";
-		options = options.concat("Manage Citizenship" + repeat(" ", 58));
-		inputs.add("manage citizenship");
+		options = options.concat("Notifications" + repeat(" ", 58));
+		inputs.add("notifications");
 		if (PDI.getIsCountryRuler()) {
 			options = options.concat("Manage Country" + repeat(" ", 60));
 			inputs.add("manage country");
@@ -139,6 +139,9 @@ public class HudConversationMain extends StringPrompt{
 			return new HudConversationMain(plugin, player, 1);
 		}
 		else {
+			if (arg.equalsIgnoreCase("Notifications")) {
+				return new Notifications(plugin, player, 0);
+			}
 			if (arg.equalsIgnoreCase("Manage Citizenship")) {
 				return new ManageCitizenship(plugin, player, 0);
 			}
