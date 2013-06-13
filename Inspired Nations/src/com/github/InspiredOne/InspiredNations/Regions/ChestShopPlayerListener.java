@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
@@ -24,6 +25,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -38,6 +40,7 @@ public class ChestShopPlayerListener {
 	String playername;
 	PlayerData PDI;
 	PlayerModes PM;
+	PlayerItemHeldEvent held;
 	InventoryOpenEvent open;
 	InventoryCloseEvent close;
 	PlayerInteractEvent interact;
@@ -45,7 +48,7 @@ public class ChestShopPlayerListener {
 	SignChangeEvent sign;
 	ItemStack item;
 	boolean first = true;
-	boolean legal = false;
+	boolean legal;
 	
 	public ChestShopPlayerListener(InspiredNations instance, InventoryOpenEvent event) {
 		plugin = instance;
@@ -53,7 +56,17 @@ public class ChestShopPlayerListener {
 		playername = player.getName().toLowerCase();
 		PDI = plugin.playerdata.get(playername);
 		PM = plugin.playermodes.get(playername);
+		legal = PM.legalItem;
 		open = event;
+	}
+	public ChestShopPlayerListener(InspiredNations instance, PlayerItemHeldEvent event) {
+		plugin = instance;
+		player = event.getPlayer();
+		playername = player.getName().toLowerCase();
+		PDI = plugin.playerdata.get(playername);
+		PM = plugin.playermodes.get(playername);
+		legal = PM.legalItem;
+		held = event;
 	}
 	public ChestShopPlayerListener(InspiredNations instance, SignChangeEvent event) {
 		plugin = instance;
@@ -61,6 +74,7 @@ public class ChestShopPlayerListener {
 		playername = player.getName().toLowerCase();
 		PDI = plugin.playerdata.get(playername);
 		PM = plugin.playermodes.get(playername);
+		legal = PM.legalItem;
 		sign = event;
 	}
 	
@@ -70,6 +84,7 @@ public class ChestShopPlayerListener {
 		playername = player.getName().toLowerCase();
 		PDI = plugin.playerdata.get(playername);
 		PM = plugin.playermodes.get(playername);
+		legal = PM.legalItem;
 		close = event;
 	}
 	
@@ -79,6 +94,7 @@ public class ChestShopPlayerListener {
 		playername = player.getName().toLowerCase();
 		PDI = plugin.playerdata.get(playername);
 		PM = plugin.playermodes.get(playername);
+		legal = PM.legalItem;
 		interact = event;
 	}
 	
@@ -88,6 +104,7 @@ public class ChestShopPlayerListener {
 		playername = player.getName().toLowerCase();
 		PDI = plugin.playerdata.get(playername);
 		PM = plugin.playermodes.get(playername);
+		legal = PM.legalItem;
 		place = event;
 	}
 	
@@ -95,7 +112,24 @@ public class ChestShopPlayerListener {
 		if (!PM.getPlaceItem()) return;
 		if (!open.getInventory().getType().equals(InventoryType.CHEST)) return;
 		Inventory inventory = open.getInventory();
+		//PM.setItemType(player.getItemInHand());
+		//plugin.getServer().getPlayer(player.getName()).sendRawMessage(generateMessage(0));
 			
+	}
+	
+	public void onItemHeld() {
+		if (!PM.getPlaceItem()) return;
+		try {
+		PM.setItemType(player.getInventory().getItem(held.getNewSlot()));
+		legal = true;
+		PM.legalItem = true;
+		plugin.getServer().getPlayer(player.getName()).sendRawMessage(generateMessage(0));
+		}
+		catch (Exception ex) {
+			legal = false;
+			PM.legalItem = false;
+			plugin.getServer().getPlayer(player.getName()).sendRawMessage(generateMessage(0));
+		}
 	}
 	
 	public void onCloseInventory() {
@@ -103,7 +137,7 @@ public class ChestShopPlayerListener {
 		if (!close.getInventory().getType().equals(InventoryType.CHEST)) return;
 		Inventory inventory = close.getInventory();
 		PM.items = inventory;
-		for (ItemStack thing: inventory.getContents()) {
+		/*for (ItemStack thing: inventory.getContents()) {
 			try{
 				if (!thing.equals(null) && first) {
 					item = thing;
@@ -117,41 +151,34 @@ public class ChestShopPlayerListener {
 			}
 			catch (Exception ex) {		
 			}
-		}
-		if (legal && PM.legalChest && !PM.alreadyChest) {
-			PM.setItemType(item);
+		}*/
+		if (legal && PM.legalChest) {
+			//PM.setItemType(item);
 			PM.items = inventory;
-			PM.legalInventory = true;
+			PM.legalItem = true;
 			plugin.getServer().getPlayer(player.getName()).sendRawMessage(generateMessage(0));
-		}
-		else if(PM.alreadyChest) {
-			PM.legalInventory = false;
-			PM.items = null;
-			PM.setItemType(null);
-			PM.alreadyChest = false;
-			plugin.getServer().getPlayer(player.getName()).sendRawMessage(generateMessage(8));
 		}
 		else if(legal && !PM.legalChest) {
 			PM.setItemType(item);
 			PM.items = inventory;
-			PM.legalInventory = true;
+			PM.legalItem = true;
 			plugin.getServer().getPlayer(player.getName()).sendRawMessage(generateMessage(1));
 		}
 		else if(!legal && PM.legalChest) {
-			PM.legalInventory = false;
+			PM.legalItem = false;
 			PM.items = null;
 			PM.setItemType(null);
 			plugin.getServer().getPlayer(player.getName()).sendRawMessage(generateMessage(2));
 		}
 		else if(!legal && !PM.legalChest) {
-			PM.legalInventory = false;
+			PM.legalItem = false;
 			PM.items = null;
 			PM.setItemType(null);
 			plugin.getServer().getPlayer(player.getName()).sendRawMessage(generateMessage(3));
 		}
 
 		if (!legal) {
-			PM.legalInventory = false;
+			PM.legalItem = false;
 			PM.items = null;
 			PM.setItemType(null);
 		}
@@ -235,7 +262,8 @@ public class ChestShopPlayerListener {
 						for(ChestShop shop: business.getChestShop()) {
 
 							if (shop.isIn(PM.tempchests[0])) {
-								PM.alreadyChest = true;
+								//Commented out because I changed my mind about each shop having an individual chest
+								//PM.alreadyChest = true;
 							}
 						}
 						
@@ -336,10 +364,22 @@ public class ChestShopPlayerListener {
 			errormsg = errormsg.concat("That chest is outside of the business.");
 		}
 		if (error == 2)	{
-			errormsg = errormsg.concat("That chest's inventory is invalid. All the items must be the same, and you must put at least one item in the chest.");
+			errormsg = errormsg.concat("That Item is invalid. Put the item you would like to sell in your hand.");
 		}
 		if (error == 3) {
-			errormsg = errormsg.concat("That chest is outside of the business and it's inventory is invalid. All the items must be the same, and you must put at least one item in the chest.");
+			errormsg = errormsg.concat("That chest is outside of the business and the Item is invalid. Put the item you would like to sell in your hand and interact with the chest you'd like to sell it from.");
+		}
+		if (error == 4) {
+			errormsg = errormsg.concat("You can't sell zero items.");
+		}
+		if (error == 5) {
+			errormsg = errormsg.concat("Only integers allowed.");
+		}
+		if (error == 6) {
+			errormsg = errormsg.concat("Quantity cannot exceed 999999999 items.");
+		}
+		if (error == 7) {
+			errormsg = errormsg.concat("The chest you selected was made into a shop before you could finish.");
 		}
 		if (error == 8) {
 			errormsg = errormsg.concat("The chest you selected is already a shop.");
@@ -347,8 +387,14 @@ public class ChestShopPlayerListener {
 		
 		options = options.concat(ChatColor.YELLOW + "Place the item you would like to sell in the chest you would like to sell from. Then enter the quantity that you would like to sell per sale." + repeat(" ", 30));
 		options = options.concat(ChatColor.DARK_AQUA + repeat("-", 53) + ChatColor.YELLOW);
-		if (!PM.legalChest || !PM.legalInventory) {
-			options = options.concat("Item Type: " + ChatColor.GOLD + "Pending... " );
+		if (!PM.legalChest) {
+			options = options.concat("Legal Chest:" + ChatColor.GOLD +" No" +repeat(" ", 57));
+		}
+		else {
+			options = options.concat("Legal Chest:" + ChatColor.GOLD +" Yes" + repeat(" ", 57));
+		}
+		if (!PM.legalItem) {
+			options = options.concat(ChatColor.YELLOW + "Item Type: " + ChatColor.GOLD + "Pending... " );
 		}
 		else {
 			
@@ -358,8 +404,9 @@ public class ChestShopPlayerListener {
 				itemname = itemname.concat(namesplit[i] + " ");
 			}
 			
-			options = options.concat("Item Type: " + ChatColor.GOLD + itemname + " ");
+			options = options.concat(ChatColor.YELLOW + "Item Type: " + ChatColor.GOLD + itemname + " ");
 		}
+			
 				
 		return space + main + options + end + errormsg;
 	}

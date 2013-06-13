@@ -15,10 +15,12 @@ import java.util.Vector;
 
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.Prompt;
 import org.bukkit.conversations.StringPrompt;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
@@ -39,6 +41,7 @@ public class PlaceShop1 extends StringPrompt {
 	Vector<String> businessnames = new Vector<String>();
 	GoodBusiness good;
 	String name;
+	ItemStack itemheld;
 	
 	// Constructor
 	public PlaceShop1(InspiredNations instance, Player playertemp, int errortemp, String business) {
@@ -47,6 +50,16 @@ public class PlaceShop1 extends StringPrompt {
 		PDI = plugin.playerdata.get(player.getName().toLowerCase());
 		town = PDI.getTownMayored();
 		PM = plugin.playermodes.get(player.getName().toLowerCase());
+		plugin.logger.info("1a");
+		if(!player.getItemInHand().equals(Material.AIR)) {
+			itemheld = player.getItemInHand();
+			PM.legalItem = true;
+			PM.setItemType(itemheld);
+		}
+		else {
+			PM.legalItem = false;
+		}
+		plugin.logger.info("2a");
 		error = errortemp;
 		name = business;
 		for(GoodBusiness i: PDI.getGoodBusinessOwned()){
@@ -62,6 +75,16 @@ public class PlaceShop1 extends StringPrompt {
 		PDI = plugin.playerdata.get(player.getName().toLowerCase());
 		town = PDI.getTownMayored();
 		PM = plugin.playermodes.get(player.getName().toLowerCase());
+		plugin.logger.info("1b");
+		if(!player.getItemInHand().equals(Material.AIR)) {
+			itemheld = player.getItemInHand();
+			PM.legalItem = true;
+			PM.setItemType(itemheld);
+		}
+		else {
+			PM.legalItem = false;
+		}
+		plugin.logger.info("2b");
 		error = errortemp;
 
 		for(GoodBusiness i: PDI.getGoodBusinessOwned()){
@@ -108,10 +131,10 @@ public class PlaceShop1 extends StringPrompt {
 			errormsg = errormsg.concat("That chest is outside of the business.");
 		}
 		if (error == 2)	{
-			errormsg = errormsg.concat("That chest's inventory is invalid. All the items must be the same, and you must put at least one item in the chest.");
+			errormsg = errormsg.concat("That Item is invalid. Put the item you would like to sell in your hand.");
 		}
 		if (error == 3) {
-			errormsg = errormsg.concat("That chest is outside of the business and it's inventory is invalid. All the items must be the same, and you must put at least one item in the chest.");
+			errormsg = errormsg.concat("That chest is outside of the business and the Item is invalid. Put the item you would like to sell in your hand and interact with the chest you'd like to sell it from.");
 		}
 		if (error == 4) {
 			errormsg = errormsg.concat("You can't sell zero items.");
@@ -131,8 +154,14 @@ public class PlaceShop1 extends StringPrompt {
 		
 		options = options.concat(ChatColor.YELLOW + "Place the item you would like to sell in the chest you would like to sell from. Then enter the quantity that you would like to sell per sale." + repeat(" ", 30));
 		options = options.concat(ChatColor.DARK_AQUA + repeat("-", 53) + ChatColor.YELLOW);
-		if (!PM.legalChest || !PM.legalInventory) {
-			options = options.concat("Item Type: " + ChatColor.GOLD + "Pending... " );
+		if (!PM.legalChest) {
+			options = options.concat("Legal Chest:" + ChatColor.GOLD +" No" +repeat(" ", 57));
+		}
+		else {
+			options = options.concat("Legal Chest:" + ChatColor.GOLD +" Yes" + repeat(" ", 57));
+		}
+		if (!PM.legalItem) {
+			options = options.concat(ChatColor.YELLOW + "Item Type: " + ChatColor.GOLD + "Pending... " );
 		}
 		else {
 			
@@ -142,8 +171,9 @@ public class PlaceShop1 extends StringPrompt {
 				itemname = itemname.concat(namesplit[i] + " ");
 			}
 			
-			options = options.concat("Item Type: " + ChatColor.GOLD + itemname + " ");
+			options = options.concat(ChatColor.YELLOW + "Item Type: " + ChatColor.GOLD + itemname + " ");
 		}
+
 		
 		
 		return space + main + options + end + errormsg;
@@ -158,21 +188,18 @@ public class PlaceShop1 extends StringPrompt {
 		if (arg.equalsIgnoreCase("back")) {
 			PM.businessName = "";
 			PM.legalChest = false;
-			PM.legalInventory = false;
+			PM.legalItem = false;
 			PM.setPlaceItem(false);
 			return new ManageBusiness2(plugin, player, 0, name);
 		}
-		if (PM.legalInventory && !PM.legalChest) {
+		if (PM.legalItem && !PM.legalChest) {
 			return new PlaceShop1(plugin, player, 1, name);
 		}
-		else if(!PM.legalInventory && PM.legalChest) {
+		else if(!PM.legalItem && PM.legalChest) {
 			return new PlaceShop1(plugin, player, 2, name);
 		}
-		else if (!PM.legalInventory && !PM.legalChest) {
+		else if (!PM.legalItem && !PM.legalChest) {
 			return new PlaceShop1(plugin, player, 3, name);
-		}
-		else if (PM.alreadyChest) {
-			return new PlaceShop1(plugin, player, 8, name);
 		}
 		
 		// Number

@@ -19,6 +19,7 @@ import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -457,6 +458,12 @@ public class InspiredNationsPlayerListener implements Listener {
 		PlayerData PDI = plugin.playerdata.get(playername);
 		PlayerModes PM = plugin.playermodes.get(playername);
 		PM.setBlocksBack();
+	}
+	
+	@EventHandler
+	public void onPlayerHeld(PlayerItemHeldEvent event) {
+		ChestShopPlayerListener CSPL = new ChestShopPlayerListener(plugin, event);
+		CSPL.onItemHeld();
 	}
 	
 	// method to reset player mode values

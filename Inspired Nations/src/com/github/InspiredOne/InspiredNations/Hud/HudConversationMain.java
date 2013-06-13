@@ -139,9 +139,9 @@ public class HudConversationMain extends StringPrompt{
 			return new HudConversationMain(plugin, player, 1);
 		}
 		else {
-			if (arg.equalsIgnoreCase("Notifications")) {
+			/*if (arg.equalsIgnoreCase("Notifications")) {
 				return new Notifications(plugin, player, 0);
-			}
+			}*/
 			if (arg.equalsIgnoreCase("Manage Citizenship")) {
 				return new ManageCitizenship(plugin, player, 0);
 			}

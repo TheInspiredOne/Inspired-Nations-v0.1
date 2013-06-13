@@ -75,8 +75,8 @@ public class PlayerModes {
 	public Inventory items;
 	public boolean placesign = false;
 	private boolean placeitem = false;
-	public boolean legalChest = true;
-	public boolean legalInventory = false;
+	public boolean legalChest = false;
+	public boolean legalItem = false;
 	public String businessName;
 	public boolean outside = false;
 	public boolean onfallblock = false;

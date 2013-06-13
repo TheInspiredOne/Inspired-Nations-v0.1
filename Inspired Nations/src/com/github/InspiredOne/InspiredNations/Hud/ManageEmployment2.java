@@ -52,8 +52,8 @@ public class ManageEmployment2 extends StringPrompt{
 		PM = plugin.playermodes.get(player.getName().toLowerCase());
 		error = errortemp;
 		name = business;
-		PM.legalChest = true;
-		PM.legalInventory = false;
+		PM.legalChest = false;
+		PM.legalItem = false;
 		PM.placesign = false;
 		PM.legalsign = false;
 		PM.onfallblock = false;
@@ -81,8 +81,8 @@ public class ManageEmployment2 extends StringPrompt{
 		PM = plugin.playermodes.get(player.getName().toLowerCase());
 		error = errortemp;
 		name = business; 
-		PM.legalChest = true;
-		PM.legalInventory = false;
+		PM.legalChest = false;
+		PM.legalItem = false;
 		PM.placesign = false;
 		PM.legalsign = false;
 		PM.onfallblock = false;
