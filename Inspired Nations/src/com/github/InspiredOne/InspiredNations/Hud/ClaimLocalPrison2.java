@@ -96,8 +96,8 @@ public class ClaimLocalPrison2 extends StringPrompt {
 		
 		String[] namesplit = item.getType().name().split("_");
 		String name = "";
-		for (int i = 0; i < namesplit.length; i++) {
-			name = name.concat(namesplit[i] + " ");
+		for (String word:namesplit) {
+			name = name.concat(word + " ");
 		}
 		
 		if (PM.isSelectingCuboid()) {

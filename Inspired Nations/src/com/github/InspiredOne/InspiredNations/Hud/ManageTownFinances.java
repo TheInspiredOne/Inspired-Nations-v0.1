@@ -168,10 +168,12 @@ public class ManageTownFinances extends StringPrompt{
 		BigDecimal taxRevenue = new BigDecimal(0.00);
 		taxRevenue = cut(town.getRevenue());
 		
+		
 		int revenueLength = (int) (taxRevenue.toString().length() * 1.4);
 		BigDecimal expenditures = cut(TMI.getTaxAmount());
 		int expendituresLength = (int) (expenditures.toString().length() * 1.4);
 		int differenceLength = (int) (taxRevenue.subtract(expenditures).toString().length() * 1.4);
+		
 		
 		String options = "";
 		String space = ChatColor.DARK_AQUA + repeat(" ", plugin.getConfig().getInt("hud_pre_message_space")) + ChatColor.GOLD;
@@ -219,6 +221,7 @@ public class ManageTownFinances extends StringPrompt{
 		options = options.concat(ChatColor.GOLD + "" + town.getMoney() + ChatColor.YELLOW + " " + town.getPluralMoney() + " in total." + repeat(" ", 65 - moneylength - town.getPluralMoney().length()));
 		options = options.concat(ChatColor.RED + "");
 		options = options.concat(ChatColor.BOLD + "Yearly Taxes:" + ChatColor.RESET + repeat(" ", 59) + ChatColor.RED);
+		
 
 		options = options.concat("Expenditures: " + ChatColor.DARK_RED + expenditures + ChatColor.RED + " " + town.getPluralMoney() + " per year." + repeat(" ", 48 - expendituresLength - (int) (town.getPluralMoney().length()*1.4)));
 		options = options.concat("Revenue: " + ChatColor.DARK_GREEN+ taxRevenue.toString() + ChatColor.RED + " " + town.getPluralMoney() + " per year." + repeat(" ", 51 - revenueLength - (int) (town.getPluralMoney().length()*1.4)));
@@ -229,6 +232,7 @@ public class ManageTownFinances extends StringPrompt{
 			options = options.concat(ChatColor.BOLD + "Loans due:" + ChatColor.RESET + repeat(" ", 63));
 			options = options.concat(ChatColor.GOLD + "" + town.getLoan() + " / " + town.getMaxLoan() + " " + ChatColor.LIGHT_PURPLE + town.getPluralMoney() + repeat(" ", 57 - loanlength - maxLoanLength));
 		}
+		
 		options = options.concat(ChatColor.DARK_AQUA + repeat("-", 53) + ChatColor.GREEN);
 		if (!PDI.getIsInFederalBank()/* && PDI.getCountryIn().getName().equals(PDI.getCountryResides().getName())*/) {
 			options = options.concat("Take Out Loan <amount>" + ChatColor.GRAY + " Max: " + town.getMaxLoan().toString() + ChatColor.GREEN + repeat(" ", 40 - maxLoanLength));
@@ -238,6 +242,8 @@ public class ManageTownFinances extends StringPrompt{
 			}
 			inputs.add("take");
 		}
+		
+		
 		options = options.concat("Change Tax Rates" + repeat(" ", 55));
 		if (town.getArea() != 0 && town.getLoan().compareTo(new BigDecimal(0)) == 0) {
 			options = options.concat("Pay <player> <amount>" + repeat(" ", 50));
@@ -247,11 +253,15 @@ public class ManageTownFinances extends StringPrompt{
 			inputs.add("give");
 			inputs.add("fund");
 		}
+		
+		
 		if (town.getLoan().compareTo(new BigDecimal(0)) != 0) {
 			options = options.concat(ChatColor.DARK_GRAY + "Pay <player> <amount>" + ChatColor.GRAY + " Can't do until you pay back loans." + repeat(" ", 7));
 			options = options.concat(ChatColor.DARK_GRAY + "Give <country> <amount>" + ChatColor.GRAY + " Can't do until you pay back loans." +  repeat(" ", 5));
 			options = options.concat(ChatColor.DARK_GRAY + "Fund <town> <amount>" + ChatColor.GRAY + " Can't do until you pay back loans." + repeat(" ", 7) + ChatColor.GREEN);
 		}
+		
+		
 		inputs.add("back");
 		inputs.add("change");
 		return space + main + options + end + errormsg;

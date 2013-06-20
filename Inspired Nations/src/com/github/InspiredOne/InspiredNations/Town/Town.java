@@ -517,7 +517,7 @@ public class Town {
 	
 	public BigDecimal getRevenue() {
 		BigDecimal taxRevenue = BigDecimal.ZERO;
-		for (String playername:plugin.countrydata.get(country).getResidents()) {
+		for (String playername:plugin.countrydata.get(country.toLowerCase()).getResidents()) {
 			PlayerMethods PMI = new PlayerMethods(plugin, playername);
 			taxRevenue = taxRevenue.add(PMI.taxAmount(name));
 		}

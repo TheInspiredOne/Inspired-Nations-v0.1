@@ -81,6 +81,8 @@ public class HudConversationMain extends StringPrompt{
 		String errormsg = "";
 		options = options.concat("Notifications" + repeat(" ", 58));
 		inputs.add("notifications");
+		options = options.concat("Manage Citizenship" + repeat(" ", 58));
+		inputs.add("manage citizenship");
 		if (PDI.getIsCountryRuler()) {
 			options = options.concat("Manage Country" + repeat(" ", 60));
 			inputs.add("manage country");

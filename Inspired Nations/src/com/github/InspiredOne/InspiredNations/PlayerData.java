@@ -114,8 +114,6 @@ public class PlayerData {
 	// Location Setters
 	public PlayerData(InspiredNations instance) {
 		plugin = instance;
-//		money = 500.0;
-	//	moneyInBank = 100;
 	}
 	
 	public void setOnRoad(boolean isOnRoad) {

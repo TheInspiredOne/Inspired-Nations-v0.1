@@ -122,7 +122,7 @@ public class ClaimLocalPrison1 extends StringPrompt {
 		
 		// Back
 		if (arg.equalsIgnoreCase("back")) {
-			PM.localHall(false);
+			PM.localPrison(false);
 			return new TownGovernmentRegions(plugin, player, 0);
 		}
 		return new ClaimLocalPrison2(plugin, player, 0);

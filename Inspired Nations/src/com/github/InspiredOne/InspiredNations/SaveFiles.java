@@ -88,7 +88,6 @@ public class SaveFiles {
 		catch (IOException ex) {
 			plugin.logger.log(Level.SEVERE, "Could not save config to " + dataFile.toString(), ex);
 		}
-
 	}
 	
 	// Private methods to store and retrieve data.

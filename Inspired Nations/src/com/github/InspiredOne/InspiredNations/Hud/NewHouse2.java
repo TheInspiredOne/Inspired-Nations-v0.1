@@ -152,6 +152,7 @@ public class NewHouse2 extends StringPrompt{
 			if (PM.isSelectingPolygon()) {
 				Rectangle rect = PM.getPolygon().getPolygon().getBounds();
 				if (!isSimple(PM.getPolygon().getPolygon())) {
+					plugin.logger.info("Simple polygon");
 					PM.setBlocksBack();
 					PM.house(false);
 					return new InvalidLand(plugin, player, 1, "house");

@@ -25,7 +25,6 @@ public class StartStop {
 	public StartStop(InspiredNations instance) {
 		plugin = instance;
 		SF = new SaveFiles(plugin);
-
 	}
 	
 	public void Start() {
