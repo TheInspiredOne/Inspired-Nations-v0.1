@@ -26,7 +26,6 @@ import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.PlayerModes;
 import com.github.InspiredOne.InspiredNations.Business.Good.GoodBusiness;
-import com.github.InspiredOne.InspiredNations.Business.Service.ServiceBusiness;
 import com.github.InspiredOne.InspiredNations.Town.Town;
 
 public class PlaceShop1 extends StringPrompt {

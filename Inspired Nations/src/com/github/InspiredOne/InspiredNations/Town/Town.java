@@ -11,7 +11,6 @@
 package com.github.InspiredOne.InspiredNations.Town;
 
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
@@ -25,14 +24,12 @@ import com.github.InspiredOne.InspiredNations.PlayerMethods;
 import com.github.InspiredOne.InspiredNations.Bank.Local.LocalBank;
 import com.github.InspiredOne.InspiredNations.Business.Good.GoodBusiness;
 import com.github.InspiredOne.InspiredNations.Business.Service.ServiceBusiness;
-import com.github.InspiredOne.InspiredNations.Country.Country;
 import com.github.InspiredOne.InspiredNations.Hall.Local.LocalHall;
 import com.github.InspiredOne.InspiredNations.Hospital.Hospital;
 import com.github.InspiredOne.InspiredNations.House.House;
 import com.github.InspiredOne.InspiredNations.Park.Park;
 import com.github.InspiredOne.InspiredNations.Prison.Local.LocalPrison;
 import com.github.InspiredOne.InspiredNations.Regions.Chunks;
-import com.github.InspiredOne.InspiredNations.Regions.polygonPrism;
 
 
 

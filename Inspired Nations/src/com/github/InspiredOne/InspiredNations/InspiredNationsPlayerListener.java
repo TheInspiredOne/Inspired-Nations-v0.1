@@ -410,7 +410,7 @@ public class InspiredNationsPlayerListener implements Listener {
 	public void onPlayerInteract(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
 		String playername = player.getName().toLowerCase();
-		PlayerData PDI = plugin.playerdata.get(playername);
+		plugin.playerdata.get(playername);
 		PlayerModes PM = plugin.playermodes.get(playername);
 		
 		if(resetPlayerModes(player, PM)) return;
@@ -446,7 +446,7 @@ public class InspiredNationsPlayerListener implements Listener {
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		Player player = event.getPlayer();
 		String playername = player.getName().toLowerCase();
-		PlayerData PDI = plugin.playerdata.get(playername);
+		plugin.playerdata.get(playername);
 		PlayerModes PM = plugin.playermodes.get(playername);
 		PM.setBlocksBack();
 	}
@@ -455,7 +455,7 @@ public class InspiredNationsPlayerListener implements Listener {
 	public void onPlayerKick(PlayerKickEvent event) {
 		Player player = event.getPlayer();
 		String playername = player.getName().toLowerCase();
-		PlayerData PDI = plugin.playerdata.get(playername);
+		plugin.playerdata.get(playername);
 		PlayerModes PM = plugin.playermodes.get(playername);
 		PM.setBlocksBack();
 	}

@@ -25,7 +25,6 @@ import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.PlayerModes;
 import com.github.InspiredOne.InspiredNations.Country.Country;
 import com.github.InspiredOne.InspiredNations.Park.Park;
-import com.github.InspiredOne.InspiredNations.Town.Town;
 
 public class ManageFederalPark1 extends StringPrompt {
 

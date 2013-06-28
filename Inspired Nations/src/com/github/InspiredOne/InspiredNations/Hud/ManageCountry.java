@@ -23,11 +23,8 @@ import org.bukkit.entity.Player;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
-import com.github.InspiredOne.InspiredNations.Business.Good.GoodBusiness;
-import com.github.InspiredOne.InspiredNations.Business.Service.ServiceBusiness;
 import com.github.InspiredOne.InspiredNations.Country.Country;
 import com.github.InspiredOne.InspiredNations.Country.CountryMethods;
-import com.github.InspiredOne.InspiredNations.Town.Town;
 
 public class ManageCountry extends StringPrompt{
 

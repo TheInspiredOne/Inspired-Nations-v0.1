@@ -13,7 +13,6 @@ package com.github.InspiredOne.InspiredNations;
 import java.util.HashMap;
 import java.util.Iterator;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;

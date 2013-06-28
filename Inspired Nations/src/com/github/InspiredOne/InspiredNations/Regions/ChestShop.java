@@ -12,11 +12,8 @@ package com.github.InspiredOne.InspiredNations.Regions;
 
 
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-
-import com.github.InspiredOne.InspiredNations.InspiredNations;
 
 public class ChestShop {
 

@@ -28,7 +28,6 @@ import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.PlayerMethods;
 import com.github.InspiredOne.InspiredNations.PlayerModes;
 import com.github.InspiredOne.InspiredNations.Bank.Local.LocalBank;
-import com.github.InspiredOne.InspiredNations.Hall.Local.LocalHall;
 import com.github.InspiredOne.InspiredNations.Town.Town;
 
 public class ManageBank extends StringPrompt {

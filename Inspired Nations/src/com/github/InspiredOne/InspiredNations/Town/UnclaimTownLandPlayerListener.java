@@ -12,9 +12,6 @@ package com.github.InspiredOne.InspiredNations.Town;
 
 import java.awt.Point;
 import java.math.BigDecimal;
-import java.util.Iterator;
-
-
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -26,7 +23,6 @@ import com.github.InspiredOne.InspiredNations.PlayerMethods;
 import com.github.InspiredOne.InspiredNations.PlayerModes;
 import com.github.InspiredOne.InspiredNations.TownMethods;
 import com.github.InspiredOne.InspiredNations.Country.Country;
-import com.github.InspiredOne.InspiredNations.Country.CountryMethods;
 import com.github.InspiredOne.InspiredNations.Regions.Chunks;
 
 public class UnclaimTownLandPlayerListener {

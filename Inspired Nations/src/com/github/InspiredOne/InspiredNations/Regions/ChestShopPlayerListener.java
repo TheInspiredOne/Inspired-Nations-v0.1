@@ -15,9 +15,7 @@ import java.math.BigDecimal;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.SignChangeEvent;
@@ -111,7 +109,6 @@ public class ChestShopPlayerListener {
 	public void onOpenInventory() {
 		if (!PM.getPlaceItem()) return;
 		if (!open.getInventory().getType().equals(InventoryType.CHEST)) return;
-		Inventory inventory = open.getInventory();
 		//PM.setItemType(player.getItemInHand());
 		//plugin.getServer().getPlayer(player.getName()).sendRawMessage(generateMessage(0));
 			

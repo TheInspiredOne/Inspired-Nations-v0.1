@@ -184,6 +184,7 @@ public class SaveFiles {
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	public HashMap<String, Country> deserializeCountryData() {
 		HashMap<String, Country> temp = new HashMap<String, Country>();
 		plugin.chunks = new HashMap<Point, String>();

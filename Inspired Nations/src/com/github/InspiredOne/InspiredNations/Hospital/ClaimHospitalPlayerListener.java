@@ -146,7 +146,7 @@ public class ClaimHospitalPlayerListener {
 				
 				// Delays the clicks
 				PM.setAloudSelect(false);
-				plugin.getServer().getScheduler().scheduleAsyncDelayedTask(plugin, new Runnable() {
+				plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 						public void run() {
 							PM.setAloudSelect(true);
 						}

@@ -23,7 +23,6 @@ import org.bukkit.entity.Player;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.PlayerModes;
-import com.github.InspiredOne.InspiredNations.House.House;
 import com.github.InspiredOne.InspiredNations.Park.Park;
 import com.github.InspiredOne.InspiredNations.Town.Town;
 

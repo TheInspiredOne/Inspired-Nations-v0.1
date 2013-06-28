@@ -25,7 +25,6 @@ import com.github.InspiredOne.InspiredNations.PlayerModes;
 import com.github.InspiredOne.InspiredNations.Business.Good.GoodBusiness;
 import com.github.InspiredOne.InspiredNations.Business.Service.ServiceBusiness;
 import com.github.InspiredOne.InspiredNations.Country.Country;
-import com.github.InspiredOne.InspiredNations.House.ClaimHousePlayerListener;
 import com.github.InspiredOne.InspiredNations.House.House;
 import com.github.InspiredOne.InspiredNations.Regions.Cuboid;
 import com.github.InspiredOne.InspiredNations.Regions.polygonPrism;

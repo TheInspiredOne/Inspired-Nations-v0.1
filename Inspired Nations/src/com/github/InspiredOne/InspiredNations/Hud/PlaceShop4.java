@@ -16,7 +16,6 @@ import java.util.Vector;
 
 import org.bukkit.ChatColor;
 import org.bukkit.block.Chest;
-import org.bukkit.block.DoubleChest;
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.Prompt;
 import org.bukkit.conversations.StringPrompt;

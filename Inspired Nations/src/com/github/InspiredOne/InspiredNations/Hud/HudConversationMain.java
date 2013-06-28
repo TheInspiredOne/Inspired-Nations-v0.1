@@ -10,7 +10,6 @@
  ******************************************************************************/
 package com.github.InspiredOne.InspiredNations.Hud;
 
-import java.util.HashMap;
 import java.util.Vector;
 
 import org.bukkit.ChatColor;
