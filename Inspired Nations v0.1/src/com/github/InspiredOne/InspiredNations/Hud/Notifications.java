@@ -8,14 +8,12 @@ public class Notifications extends StringPrompt {
 
 	@Override
 	public String getPromptText(ConversationContext arg0) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	
 	@Override
 	public Prompt acceptInput(ConversationContext arg0, String arg1) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

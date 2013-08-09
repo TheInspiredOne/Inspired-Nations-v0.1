@@ -1,6 +1,0 @@
-name: InspiredNations
-main: com.github.InspiredOne.InspiredNations.InspiredNations
-version: 1.0
-commands:
-  hud:
-    description: The HUD

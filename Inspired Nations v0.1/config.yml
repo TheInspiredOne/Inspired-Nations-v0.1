@@ -1,0 +1,14 @@
+min_population: 1
+min_corulers: 3
+min_comayors: 2
+base_cost_per_chunk: 10
+country_start_loan: 25000
+loan_per_country_resident: 100
+town_start_loan: 5000
+loan_per_town_resident: 100
+selection_tool: 280
+park_tax_multiplyer: 1.5
+federal_park_base_cost: .05
+
+# Adjust this number to change the formating of the HUD. #
+hud_pre_message_space: 1292
